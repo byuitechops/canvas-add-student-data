@@ -1,2 +1,49 @@
-# canvas-add-student-data
-This is a CLI that creates student submission data in all the courses linked to a specific Canvas blue print master course
+# Canvas Add Student Data
+This is a CLI that creates student submission data in all the courses linked to a specific Canvas blue print master course.
+
+## Requirements
+
+### Enroll Students Into course
+1. Enroll four students into the course
+1. Two students will do all the submitting
+1. Other two students are there only for group actions
+
+
+### Quizzes
+
+1. Two students compleat one quiz that contains five auto feedback questions
+1. Two students compleat one quiz that is contain two teacher graded questions
+
+
+### Discussion Board
+
+1. Two students submit posts to one discussion board
+1. A total of five posts alternating between the two students
+
+
+### Assignments
+
+1. One assignment that requires a **MS Word** file uploaded with two students submissions
+1. One assignment that requires a **MS Excel** file uploaded with two students submissions
+1. One assignment that requires a **Plane Text** typed in with two students submissions
+1. One assignment that requires a **URL** typed in with two students submissions
+1. One group assignment that requires only one student from each group to upload a **PDF** file
+
+
+### Groups
+
+1. Enroll all four students into a group set called *Teacher Editable* so teachers can practice editing groups
+   * Two groups with two students each
+1. Enroll the four students into a group set called *Group Assignment* for assignments requirement number five.
+   * Two groups with two students each
+   * Make sure that the two students that do the submitting end up in different groups 
+
+
+
+
+
+
+
+
+
+
