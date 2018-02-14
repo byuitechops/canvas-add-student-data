@@ -1,0 +1,22 @@
+{
+  "name": "canvas-add-student-data",
+  "version": "1.0.0",
+  "description": "Adds fake student data to a course to simulate an active course. ",
+  "main": "canvasAPICalls.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byuitechops/canvas-add-student-data.git"
+  },
+  "author": "Joshua McKinney, Zachary Williams, Daniel Green",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/byuitechops/canvas-add-student-data/issues"
+  },
+  "homepage": "https://github.com/byuitechops/canvas-add-student-data#readme",
+  "dependencies": {
+    "canvas-wrapper": "github:byuitechops/canvas-wrapper"
+  }
+}
