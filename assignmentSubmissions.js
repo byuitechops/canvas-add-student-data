@@ -1,5 +1,5 @@
 const canvas = require('canvas-wrapper');
-const auth = require('./auth.json');
+// const auth = require('./auth.json');
 
 
 
