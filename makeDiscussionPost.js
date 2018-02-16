@@ -1,12 +1,22 @@
 const canvas = require('canvas-wrapper');
 
-module.exports = () => {
+module.exports = (studentKey, boardId, courseId, post, cb) => {
 
+    canvas.changeUser(studentKey);
+    console.log('RUNNING');
+
+    // Temp message to submit
     var entry = {
-        'message': 'JET FUEL CANT MELT STEEL BEAMS, BARBARA'
+        'message': post
     };
 
-    canvas.post(`/api/v1/courses/${course.id}/discussion_topics/${topicId}/entries`, entry, (err, postedEntry) => {
+    /* POST the entry to canvas */
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries`, entry, (err, postedEntry) => {
+        if (err) {
+            cb(err);
+            return;
+        }
 
+        cb(null, postedEntry);
     });
 };
