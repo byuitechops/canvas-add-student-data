@@ -10,6 +10,8 @@ function submitQuiz(studentKey, quizId, courseId, submission, cb) {
     // watch out for attempt number - should just be 1
     // https://canvas.instructure.com/doc/api/quiz_submission_questions.html#method.quizzes/quiz_submission_questions.answer
 
+    //ALMOST WORKING- API CALL WONT TAKE THE DANG QUESTIONS
+
 }
 
 function submitDiscussionPost(studentKey, boardId, courseId, post, cb) {
@@ -19,9 +21,23 @@ function submitDiscussionPost(studentKey, boardId, courseId, post, cb) {
     };
     canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries`, entry, (err, postedEntry) => {
         if (err)
-            cb(err, postedEntry);
+            cb(err, postedEntry.id);
         else
-            cb(null, postedEntry);
+            cb(null, postedEntry.id);
+    });
+}
+
+// Haven't tried this, but should work
+function submitDiscussionPostReply(studentKey, boardId, entryId, courseId, post, cb) {
+    canvas.changeUser(studentKey);
+    var entry = {
+        'message': post
+    };
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries/${entryId}/replies`, entry, (err, postedEntry) => {
+        if (err)
+            cb(err);
+        else
+            cb(null, postedEntry.id);
     });
 }
 
@@ -93,6 +109,7 @@ function addGroupSettingsToAssignment(adminKey, assignmentId, courseId, settings
 module.exports = {
     submitQuiz: submitQuiz,
     submitDiscussionPost: submitDiscussionPost,
+    submitDiscussionPostReply: submitDiscussionPostReply,
     submitAssignmentById: submitAssignmentById,
     submitAssignmentText: submitAssignmentText,
     makeGroup: makeGroup,

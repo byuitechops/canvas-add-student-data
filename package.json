@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/byuitechops/canvas-add-student-data#readme",
   "dependencies": {
+    "async": "^2.6.0",
     "canvas-wrapper": "github:byuitechops/canvas-wrapper"
   }
 }
