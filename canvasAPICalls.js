@@ -89,13 +89,42 @@ function submitAssignment(url, postObj, cb) {
 }
 
 /*** Admin Level Calls ***/
-function makeGroupCategory(adminKey, courseId, settings, groupCount, cb) {
-    // returns group id
+function makeGroupCategory(adminKey, courseId, settings, cb) {
+    /* set the user */
+    canvas.changeUser(adminKey);
+
+    /* settings can contain name, self-signup, and groupCount */
+    var postObj = {
+            category: settings
+        },
+        url = `/api/v1/courses/${courseId}/group_categories`;
+
+    /* make the group category and the groups */
+    canvas.post(url, postObj, (err, groupCategory) => {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        /* returns group */
+        cb(null, groupCategory);
+    });
 }
 
-// what params will this need?
 function makeGroup(adminKey, groupCategoryId, name, cb) {
+    canvas.changeUser(adminKey);
 
+    var uri = `/api/v1/group_categories/${groupCategoryId}/groups`,
+        postObj = {
+            name: name,
+        };
+
+    canvas.post(uri, postObj, (postErr, newGroup) => {
+        if (postErr) {
+            cb(postErr, newGroup);
+            return;
+        }
+        cb(null, newGroup);
+    });
 }
 
 function enrollStudentInGroup(adminKey, studentId, groupId, courseId, cb) {
