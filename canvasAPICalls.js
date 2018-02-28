@@ -89,8 +89,13 @@ function submitAssignment(url, postObj, cb) {
 }
 
 /*** Admin Level Calls ***/
-function makeGroup(adminKey, courseId, settings, cb) {
+function makeGroupCategory(adminKey, courseId, settings, groupCount, cb) {
     // returns group id
+}
+
+// what params will this need?
+function makeGroup(adminKey, groupCategoryId, name, cb) {
+
 }
 
 function enrollStudentInGroup(adminKey, studentId, groupId, courseId, cb) {
