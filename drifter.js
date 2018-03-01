@@ -16,7 +16,13 @@ var drifter = {
                 docx: 441358,
                 pdf: 441355,
                 xlsx: 441356,
-                plainText: 441357
+                plainText: `My dearest downy darling,
+                I can’t wait to return to your embrace. When the alarm clock goes off, your warmth
+               keeps me back from leaving and there are times I can’t help but think of you during work. To be honest, it’s been a bit distracting when I’m weary and tired. You carry my weight and give me rest. You’ve gathered my tears when I needed to cry and hug me when I return to you, no matter where I’ve been or what I have done. Your love is unconditional. It was quite a struggle trying to find something right for me. Some others were just too rigid for my comfort and others were spineless and soft. They were terrible at supporting me. There have been times I have to confess that I have slept with others while I was traveling but you always forgive me and it’s like I never even left. I have to apologize for the mornings I left you a mess. I didn’t mean to, I am just sometimes in a rush to leave the house but I hope you know that it’s never personal. I know one day that you will not be able to take it anymore and you will break down and I will have to replace you, but until then I will return to you every night that I can. The best part of all is that you don’t even mind when the dog drools on you. You deserve praise because I know that I underestimate your influence in my life. Without you I know that I would get on pretty well and that there are some that don’t have you in their lives, I feel for them. But you make my life so good while you have been here. I hope that this will be a long-term relationship. My dearest bed, I love you. Until tonight,
+               
+               Princess Aurora Briar-Rose 
+               
+               Just kidding, it’s Alice`
             }
         },
         bob: {
@@ -35,7 +41,10 @@ var drifter = {
                 docx: 441469,
                 pdf: 441466,
                 xlsx: 441467,
-                plainText: 441468
+                plainText: `My dear Kitchen,
+                You have gone through quite a bit. I know that I’m not the first college student to live in this dorm apartment but we have seen quite a bit together. When I saw snow for the first time and like an idiot, I played outside barefoot, I had the painful experience of thawing my feet out next to your open oven door as I drank hot chocolate and tried to keep the head cold at bay. And then the next day when we both realized that stomach flu was more the order of the day. You were there when we cornered our roommate and made her text the boy that she had just gone on a date with to ask if they were official. We sat at your table and screamed when he said yes. For your information, they are married now. You saw when that same roommate put a cup of noodles in your microwave without water, and the microwave exploded with massive flames as she did her math homework. Black smoke poured all throughout you and it took several weeks before all the soot was officially removed from your cupboard doors. I’m sorry about that one. She can work a microwave now. I remember when my friend broke up with her boyfriend and we sat looking out of your massive window as the sun set and we tried to put her back together. We had good times together and I just want to thank you. They tore down the apartments, and now you are just a parking spot that I use when I’m late to class. But I will always remember the smoke, the sunsets, the screaming, all of it. I know it’s too late, but I wanted to tell you how much we all loved you.
+                Regretfully, 
+                Charli Tryle`
             }
         },
         david: {
@@ -51,7 +60,22 @@ var drifter = {
                 docx: 441474,
                 pdf: 441471,
                 xlsx: 441472,
-                plainText: 441473
+                plainText: `To my admired friend, the Grecian Urn,
+                Thou still unravished bride of quietness, thou foster-child of silence and slow time, 
+                Sylvan historian, who canst thus express. A flowery tale more sweetly than our rhyme: 
+                What leaf-fringed legend haunts about thy shape. Of deities or mortals, or of both, In Tempe or the dales of Arcady? What men or gods are these? What maidens loth? What mad pursuit? What struggle to escape? What pipes and timbrels? What wild ecstasy? 
+                Heard melodies are sweet, but those unheard are sweeter; therefore, ye soft pipes, play on; 
+                Not to the sensual ear, but, more endeared, Pipe to the spirit ditties of no tone: 
+                Fair youth, beneath the trees, thou canst not leave Thy song, nor ever can those trees be bare; Bold Lover, never, never canst thou kiss, though winning near the goal yet, do not grieve; She cannot fade, though thou hast not thy bliss, forever wilt thou love, and she be fair! 
+                Ah, happy, happy boughs! that cannot shed. Your leaves, nor ever bid the Spring adieu; 
+                And, happy melodist, unwearied, forever piping songs for ever new; More happy love! more happy, happy love! Forever warm and still to be enjoyed, forever panting, and forever young; 
+                All breathing human passion far above, that leaves a heart high-sorrowful and cloy'd, A burning forehead, and a parching tongue. 
+                
+                Who are these coming to the sacrifice? To what green altar, O mysterious priest, Lead'st thou that heifer lowing at the skies, and all her silken flanks with garlands dressed? What little town by river or sea shore, or mountain-built with peaceful citadel, Is emptied of this folk, this pious morn? And, little town, thy streets for evermore Will silent be; and not a soul to tell Why thou art desolate, can ever return. 
+                
+                O Attic shape! Fair attitude! with brede of marble men and maidens overwrought, with forest branches and the trodden weed; Thou, silent form, dost tease us out of thought as doth eternity: Cold Pastoral! When old age shall this generation waste, thou shalt remain, in midst of other woe Than ours, a friend to man, to whom thou say'st, "Beauty is truth, truth beauty, —that is all. Ye know on earth, and all ye need to know.”
+                Compassionately,
+                        David Tryle`
             }
         },
         eugene: {
@@ -67,7 +91,10 @@ var drifter = {
                 docx: 441478,
                 pdf: 441475,
                 xlsx: 441476,
-                plainText: 441477
+                plainText: `Hey Jukebox,
+                It’s been a while. I know you haven’t heard from me since I left you for the MP3 player. Just so you know, that phase didn’t last long. Now I just catch glimpses of you in diners and old junkyards. I bet you feel abandoned. But I just want you to know that I still think you are cool.
+                Your old friend,
+                Eugene Tryle.`
             }
         },
         faith: {
@@ -87,7 +114,12 @@ var drifter = {
                 docx: 441482,
                 pdf: 441479,
                 xlsx: 441480,
-                plainText: 441481
+                plainText: `Hey Car!
+                You’re not mine yet, but you will be one day. My dad has kept you in the garage for so long. You were his first but he never seemed to be able to let you go. You were just a car back then but now you are vintage and beautiful. I hope that I can age like you. Everyone wants you, including me. Your red finish has smeared but I can fix that. I can fix all the broken parts of you. That’s why you’ll be mine when I get married. I’ve worked on you since I was 16 years old and we’ve grown up together. But now comes the hard part, to find a girl who would marry me. Heck, they won’t even say yes to a date, typically. For some reason, they don’t see the rust and dirt under my fingernails quite the same as you do. I don’t know how, but I will one day have you in my own garage. Tonight I have a date with a girl, she’s not a model, but you are and you are worth it. So I hope you aren’t too hurt when I don’t come see you tonight. I have to wash up now, but I wanted to let you know that this is for you. We’ll all be happier when I’m not so single anymore. I can see myself taking this girl for a ride down the highway in you and we travel to the beach where you can see it for the first time. Maybe the girl isn’t as bad as I thought, she texted that she wants to come see you tonight. Let’s just be patient and see what happens. Remember when we came on too strong the last couple times? Let’s try not to be creepy this time.
+                See you later, 
+                
+                Guy Tryle
+                P.S Try to look your best.`
             }
         },
         hope: {
@@ -103,7 +135,22 @@ var drifter = {
                 docx: 441486,
                 pdf: 441483,
                 xlsx: 441484,
-                plainText: 441485
+                plainText: `To my travel buddy,
+                I don’t often write love letters to gadgets. But you, you’re something special.
+                
+                Truth is, I’ve been searching for someone like you for years.
+                See, I love the huge light sensor that’s inside an SLR. It can take sharp low-light shots without the flash. It can blur the background the way professionals do.
+                
+                I just don’t like how an SLR is big and heavy and obtrusive.
+                
+                What I’ve always wanted is a little camera with a big sensor. Is that so hard?
+                
+                Apparently, yes. The problem is covering a rectangular sensor chip with a circle of light from the lens. Bigger sensor? You need a bigger camera. Those are the simple bylaws of physics. But you defy physics with your diminutive stature. I’ve always liked small and short. But I was fooled by your size once, and I won’t be again. You are powerful and move me with your results.
+                
+                But you, oh, cute little Canon PowerShot S95! I love that you’re a pocket camera, only 3.9 by 2.3 by 1.2 inches. I love your big, bright, three-inch screen, your built-in flash, your H.D.M.I. output for hi-def. TV sets. I love that you turn on directly into Playback mode, without having to extend the lens. If only I had found you years ago, life would have been so bright in retrospect. They say a picture is worth a thousand words and you have written me novels by now, so I wanted to write some appreciation for you. I wouldn’t have a profession without you. Someday I hope that we can put your pictures up in a gallery, but until then you’ll just be here by my side, working with me to create art. You take and preserve the most precious resource in history: time. So here’s my letter to you, Canon PowerShot S95, and I hope you return my affection by never breaking on me.
+                 
+                P.s I’m sorry for the times I dropped you, it was an accident. 
+                Hope`
             }
         },
         ima: {
@@ -120,7 +167,10 @@ var drifter = {
                 docx: 441490,
                 pdf: 441487,
                 xlsx: 441488,
-                plainText: 441489
+                plainText: `Dear Shoes,
+                Oh my gosh, you would not believe the pair of heels I saw in the window at the mall at Macy’s. They were so cute and, like, fifty percent off. They were just the perfect shade of nude and had an adorable wedge heel in it. I was so excited and then I remembered you. You are my favorite pair, remember when we went to that party and you gave me confidence a lift and I flirted with my crush and I came home with his number. We made a good team that night. You did so well, I carried you home. And then when we had our first date with him and you made me trip as I walked beside him and he caught me, that was smooth. You are the best wing woman. But it’s time for us to break apart. I have been married to him for three years and you have carried me through two pregnancies. I felt bad as you stretched and were smashed little by little. It’s time that you go where all good shoes go. But I will always remember you fondly and I want you to know that it’s because of you that I have my family. Thank you, black pair of pumps. You will be missed.
+                Affectionately,
+                Ima`
             }
         }
     },
