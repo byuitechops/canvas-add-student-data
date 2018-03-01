@@ -20,17 +20,28 @@ var drifter = {
             }
         },
         bob: {
-            id: "34729",
+            id: "34729"
         },
         charli: {
             id: "34730",
+            <<
+            <<
+            <<
+            <
+            HEAD
             posts: [
                 "So I really like getting together with my group and doing this research. I grew up in Salt Lake Utah and this is my first semester here and so I haven’t really experienced much. I never have had to deal with many of these issues that we studied. That was more for the liberals. I never was really close to anyone who struggled with same sex attraction and I know people who are divorced but I never really understood much about it. Of course, there were people with addictions but I never really thought that much could help them. It pains me to say these things but they were my reality. Watching these videos and having this amazing conversations with the others in my group who have struggled or know of someone who has struggled with these things has helped me see so much more. I tended to keep the gospel separate from politics but from these videos I can see that all these political conversations are really just conversations about people. I love now knowing where I can go to find more answers about modern day issues because to be honest, it IS a struggle. I love knowing that the atonement can help everyone, and I mean really everyone."
             ],
             replies: [
                 "I had the same experience. I thought it was going to be rough because I’m not good with math either and I never understood what everyone got out of it. But actually it was pretty eye opening. Temporal stuff is important too.",
                 "I agree with Hope. Your uncle might never return to the church but he can be loved again. That’s what happened with my cousin. But he is doing better. It’s hard to understand addiction without going through it yourself. Doesn’t that just make you so glad that we have the word of wisdom?!"
-            ]
+            ],
+            files: {
+                docx: 441469,
+                pdf: 441466,
+                xlsx: 441467,
+                plainText: 441468
+            }
         },
         david: {
             id: "34731",
@@ -40,7 +51,13 @@ var drifter = {
             replies: [
                 "I know what you mean. I brain stormed for like two days before I could come up with something I believed. But don’t worry dude, I think you’re awesome. Just hold on. Some people are obsessed with juke boxes and someone will be the match for you man.",
                 "That’s really sweet! We’ve all had moments like that. I agree with Eugene. The most important thing was that you acted and changed your behavior immediately. Way to go, man!"
-            ]
+            ],
+            files: {
+                docx: 441474,
+                pdf: 441471,
+                xlsx: 441472,
+                plainText: 441473
+            }
         },
         eugene: {
             id: "34766",
@@ -50,7 +67,13 @@ var drifter = {
             replies: [
                 "That was one thing that I struggled with in that project was trying to find relevance in what it’s purpose was in all of this. I honestly have done art all my life and I didn’t think much about it because it was basic to me. Thanks for sharing your insights. I didn’t think about that before!",
                 "That’s awesome man. I think we all have to have moments where we realized that there are some ruts that we have gotten sucked into. Kudos for taking her out instead of continuing with life. (By the way, what kind of car is it?)"
-            ]
+            ],
+            files: {
+                docx: 441478,
+                pdf: 441475,
+                xlsx: 441476,
+                plainText: 441477
+            }
         },
         faith: {
             id: "34767",
@@ -64,7 +87,13 @@ var drifter = {
                 "Thanks Eugene, we had fun. I’m hoping to do stuff like that more often. My car is a 1986 T-bird.",
                 "I never knew that all these things existed on LDS.org! I actually used parts of the video in a video in Sunday school recently and it really brought the spirit and brought my class closer. It was the best discussion that we’ve had in a while.",
                 "I never knew you were deaf! That’s such a struggle. Good for you for finding confidence in it. It’s a good reminder that we never know what someone is going through."
-            ]
+            ],
+            files: {
+                docx: 441482,
+                pdf: 441479,
+                xlsx: 441480,
+                plainText: 441481
+            }
         },
         hope: {
             id: "34769",
@@ -74,7 +103,13 @@ var drifter = {
             replies: [
                 "Wow, such a great moment. I’m an english major and I love that about writing and how it gives us strength. I hope you never feel alone! We’re here with you. If you ever need some company, let me know and me and my husband will come out to meet you.",
                 "That’s so heartbreaking! Nothing hits quite as close to home as stuff like that. My brother dealt an addiction himself. It was hard but his return started the same way as your uncle. When the family came back around, he returned to church and how has an amazing family of his own. Don’t give up hope!"
-            ]
+            ],
+            files: {
+                docx: 441486,
+                pdf: 441483,
+                xlsx: 441484,
+                plainText: 441485
+            }
         },
         ima: {
             id: "34770",
@@ -84,7 +119,14 @@ var drifter = {
             replies: [
                 "This breaks my heart! You’re a good guy Eugene. I didn’t get married until latter in my life as well. And it was hard. Sorry if it embarresses you to have all this attention, but I think it’s good that you dived down into these assignments, even after you submitted them.",
                 "I feel the same! My best friend struggles with same sex- attraction and we love him so much but it was hard for me in the beginning. I kind of went through the same process as the dad did. I think this is what education is all about."
-            ]
+            ],
+            d: "34770",
+            files: {
+                docx: 441490,
+                pdf: 441487,
+                xlsx: 441488,
+                plainText: 441489
+            }
         }
     },
     messages: [{ // This is a template message
