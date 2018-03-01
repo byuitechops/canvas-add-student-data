@@ -86,10 +86,10 @@ function submitAssignment(url, postObj, cb) {
 function makeGroupCategory(courseId, settings, cb) {
 
     /* settings can contain name, self-signup, and groupCount */
-    var postObj = {
+    var url = `/api/v1/courses/${courseId}/group_categories`,
+        postObj = {
             category: settings
-        },
-        url = `/api/v1/courses/${courseId}/group_categories`;
+        };
 
     /* make the group category and the groups */
     canvas.post(url, postObj, (err, groupCategory) => {

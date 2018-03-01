@@ -169,6 +169,10 @@ var drifter = {
             id: "string",
             search: "string"
         },
+    },
+    groupLinks: {
+        link1: 'https://www.lds.org/media-library/video/mormon-and-gay?lang=eng',
+        link2: 'https://www.lds.org/media-library/video/2015-08-011-step-11-personal-revelation-lindsays-story-about-heroin-addiction-recovery?category=12-steps-to-change&lang=eng'
     }
 };
 
