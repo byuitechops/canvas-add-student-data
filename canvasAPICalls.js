@@ -85,10 +85,8 @@ function submitAssignment(url, postObj, cb) {
 /*** Admin Level Calls ***/
 function makeGroupCategory(courseId, settings, cb) {
 
-    /* settings can contain name, self-signup, and groupCount */
-    var postObj = {
-            category: settings
-        },
+    /* settings can contain name, self-signup, and create_group_count */
+    var postObj = settings,
         url = `/api/v1/courses/${courseId}/group_categories`;
 
     /* make the group category and the groups */
@@ -118,8 +116,7 @@ function makeGroup(groupCategoryId, name, cb) {
     });
 }
 
-function enrollStudentsInGroup(adminKey, groupId, students, cb) {
-    canvas.changeUser(adminKey);
+function enrollStudentsInGroup(groupId, students, cb) {
 
     var uri = `/api/v1/groups/${groupId}`,
         settings = {

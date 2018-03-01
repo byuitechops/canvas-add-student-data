@@ -115,7 +115,6 @@ var drifter = {
                 "This breaks my heart! You’re a good guy Eugene. I didn’t get married until latter in my life as well. And it was hard. Sorry if it embarresses you to have all this attention, but I think it’s good that you dived down into these assignments, even after you submitted them.",
                 "I feel the same! My best friend struggles with same sex- attraction and we love him so much but it was hard for me in the beginning. I kind of went through the same process as the dad did. I think this is what education is all about."
             ],
-            d: "34770",
             files: {
                 docx: 441490,
                 pdf: 441487,
@@ -159,16 +158,45 @@ var drifter = {
             id: "string",
             search: "L12 Excel Practice: Personal Budget Project"
         },
-        group: {
+        plainText: {
             id: "string",
             search: "L12 Group Activity: Modern Day Issues"
         },
     },
-    groups: {
-        name: {
-            id: "string",
-            search: "string"
+    groupCategories: {
+        teacherEditable: {
+            id: 'toBeSet',
+            settings: {
+                'name': 'Teacher Editable',
+                'create_group_count': 2
+            },
         },
+        groupAssignments: {
+            id: 'toBeSet',
+            settings: {
+                'name': 'Group Assignments',
+            },
+            groups: [{
+                id: "Batman",
+                name: "Group 1",
+                students: [
+                    34730,
+                    34767,
+                    34769,
+                    34766,
+                ]
+            }, {
+                id: "Superman",
+                name: "Group 2",
+                students: [
+                    34728,
+                    34770,
+                    34731,
+                    34768,
+                    34729,
+                ]
+            }],
+        }
     }
 };
 

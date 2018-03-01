@@ -165,48 +165,109 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
     });
 }
 
-function makeGroupCategories() {
-
-}
-
-function makeGroups() {
-
-}
-
-function putStudentsInGroups() {
-
-}
-
-function makeAssignmentSubmissions(drifter, waterCallback) {
-
-    var submissions = [{
-        student: drifter.students.bob,
-        assignId: drifter.assignments.docx.id,
-        text: 'ALICE BELIEVES IN THE MOON LANDING BUT WON\'T ADMIT IT',
-    }, {
-        student: drifter.students.david,
-        assignId: drifter.assignments.docx.id,
-        text: 'I dunno why the other two are always so mad',
-    }, {
-        student: drifter.students.alice,
-        assignId: drifter.assignments.docx.id,
-        text: 'SEE MY BLOG TO LEARN THE ABSOLUTE TRUTH ABOUT TOOTHPASTE',
-    }, ];
-
-    function makeAssignmentSubmission(assignObj, eachCallback) {
-        canvasAPICalls.submitAssignmentText(assignObj.student.key, assignObj.assignId, drifter.course.id, assignObj.text, (discErr, replyId) => {
-            if (discErr) {
-                eachCallback(discErr);
+function makeGroupCategories(drifter, waterCallback) {
+    function makeGroupCategory(groupCatObj, eachCallback) {
+        console.log(groupCatObj.settings);
+        canvasAPICalls.makeGroupCategory(drifter.course.id, groupCatObj.settings, (cbErr, newCategory) => {
+            if (cbErr) {
+                eachCallback(cbErr);
                 return;
             }
+            groupCatObj.id = newCategory.id;
+            console.log(`Group Category Created: ${groupCatObj.settings.name}`);
             eachCallback(null);
         });
     }
 
-    asyncLib.eachSeries(submissions, makeAssignmentSubmission, waterCallback);
+    asyncLib.eachSeries(drifter.groupCategories, makeGroupCategory, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
 }
 
+function makeGroups(drifter, waterCallback) {
+    function makeGroup(groupObj, eachCallback) {
+        canvasAPICalls.makeGroup(drifter.groupCategories.groupAssignments.id, groupObj.name, (cbErr, newGroup) => {
+            if (cbErr) {
+                eachCallback(cbErr);
+                return;
+            }
+            groupObj.id = newGroup.id;
+            console.log(`Group Created: ${groupObj.name} ${groupObj.id}`);
+            eachCallback(null);
+        });
+    }
 
+    asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, makeGroup, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
+}
+
+function putStudentsInGroups(drifter, waterCallback) {
+    function addStudents(groupObj, eachCallback) {
+        canvasAPICalls.enrollStudentsInGroup(groupObj.id, groupObj.students, (cbErr, updatedGroup) => {
+            if (cbErr) {
+                eachCallback(cbErr);
+                return;
+            }
+            console.log(`Group Enrollments Created: ${groupObj.name} | ${groupObj.students}`);
+            eachCallback(null);
+        });
+    }
+
+    asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, addStudents, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
+}
+
+function makeAssignmentSubmissions(drifter, waterCallback) {
+
+    function makeAssignmentSubmission(student, eachCallback) {
+
+        function submitAssignment(file, key, eCB) {
+            if (typeof file === 'number') {
+                canvasAPICalls.submitAssignmentById(student.id, drifter.assignments[key].id, drifter.course.id, file, (discErr, submission) => {
+                    if (discErr) {
+                        eCB(discErr);
+                        return;
+                    }
+                    console.log(`Assignment (File) Submitted: ${file} | Student: ${student.id}`);
+                    eCB(null);
+                });
+            } else {
+                canvasAPICalls.submitAssignmentText(student.id, drifter.assignments[key].id, drifter.course.id, file, (discErr, submission) => {
+                    if (discErr) {
+                        eCB(discErr);
+                        return;
+                    }
+                    console.log(`Assignment (Text) Submitted - Student: ${student.id}`);
+                    eCB(null);
+                });
+            }
+        }
+
+        asyncLib.eachOf(student.files, submitAssignment, eachCallback);
+    }
+
+    asyncLib.eachSeries(drifter.students, makeAssignmentSubmission, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
+}
 
 
 module.exports = () => {
@@ -221,8 +282,11 @@ module.exports = () => {
             var functionCalls = [
                 asyncLib.constant(courseData),
                 populateDrifter,
-                makeDiscussionPosts,
-                makeDiscussionPostReplies,
+                // makeDiscussionPosts,
+                // makeDiscussionPostReplies,
+                makeGroupCategories,
+                makeGroups,
+                putStudentsInGroups,
                 makeAssignmentSubmissions
             ];
 
