@@ -127,8 +127,21 @@ function makeGroup(adminKey, groupCategoryId, name, cb) {
     });
 }
 
-function enrollStudentInGroup(adminKey, studentId, groupId, courseId, cb) {
+function enrollStudentsInGroup(adminKey, groupId, students, cb) {
+    canvas.changeUser(adminKey);
 
+    var uri = `/api/v1/groups/${groupId}`,
+        settings = {
+            "members": `${students.join(',')}`
+        };
+
+    canvas.put(uri, settings, (err, changedGroup) => {
+        if(err) {
+            cb(err);
+            return;
+        }
+        cb(null, changedGroup);
+    });
 }
 
 function enrollStudentInCourse(adminKey, studentId, courseId, cb) {
@@ -147,7 +160,8 @@ module.exports = {
     submitAssignmentById: submitAssignmentById,
     submitAssignmentText: submitAssignmentText,
     makeGroup: makeGroup,
-    enrollStudentInGroup: enrollStudentInGroup,
+    makeGroupCategory: makeGroupCategory,
+    enrollStudentsInGroup: enrollStudentsInGroup,
     enrollStudentInCourse: enrollStudentInCourse,
     addGroupSettingsToAssignment: addGroupSettingsToAssignment
 };

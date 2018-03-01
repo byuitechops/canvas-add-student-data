@@ -3,8 +3,6 @@
 
 const canvas = require('canvas-wrapper');
 const myAuth = require('./auth.json').token;
-const studentAuth = require('./studentAuth.json').token;
-const request = require('request');
 
 
 var groupCategories = [{
