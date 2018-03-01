@@ -2,7 +2,9 @@
 /* eslint no-console:0 */
 
 const canvas = require('canvas-wrapper');
-const auth = require('./auth.json');
+const myAuth = require('./auth.json').token;
+const studentAuth = require('./studentAuth.json').token;
+const request = require('request');
 
 
 var groupCategories = [{
@@ -58,51 +60,45 @@ function makeGroup(adminKey, groupCategoryId, name, cb) {
 }
 
 
-makeGroupsForGroupCategory(auth.token, 332, 80, 'TEST GROUP', (err, newGroup) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(newGroup);
-});
-
-
-
-
-
-
-
-
-// TODO: didn't test this
-function enrollStudentInGroup(adminKey, studentId, groupId, courseId, cb) {
+function enrollStudentsInGroup(adminKey, groupId, students, cb) {
     canvas.changeUser(adminKey);
-    // the call that needs to be be made
-    // https://canvas.instructure.com/doc/api/groups.html#method.group_memberships.create
-    var apiCall = `/api/v1/groups/${groupId}/memberships`,
+
+    var uri = `/api/v1/groups/${groupId}`,
         settings = {
-            user_id: studentId
+            "members": `${students.join(',')}`
         };
 
-    // make the group category and the groups
-    canvas.post(apiCall, settings, (err, groupCategory) => {
-        if (err) {
-            cb(err, null);
+    canvas.put(uri, settings, (err, response) => {
+        if(err) {
+            console.error(err);
             return;
         }
-
-        // returns group 
-        cb(null, groupCategory);
+        console.log(response);
     });
 }
 
+// enrollStudentsInGroup(myAuth, 1302, [34728,34729,34730,34731,34766], (err, something) => {
+//     if (err) {
+//         console.error(err);
+//         return;
+//     }
+//     console.log(something);
+// });
 
-
-// makeGroup(adminKey, courseId, settings, cb) {
-// makeGroup(process.env.ADMIN_KEY, 80, groupCategories[1], (err, data) => {
-/* makeGroup(auth.token, 80, {}, (err, data) => {
+// makeGroupCategory(adminKey, courseId, settings, cb) {
+/* makeGroupCategory(process.env.ADMIN_KEY, 80, groupCategories[1], (err, data) => {
     if (err) {
         console.log(err);
         return;
     }
     console.log(data);
+}); */
+
+
+/* makeGroup(myAuth, 332, 80, 'TEST GROUP', (err, newGroup) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(newGroup);
 }); */
