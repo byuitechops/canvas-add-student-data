@@ -6,40 +6,37 @@ var drifter = {
     },
     students: {
         alice: {
-            id: "string", // Do we need these at all?
-            key: "10706~pc9Xet4wma3BBVv41fHtab7cVEsvVI9BOTJ6b9KbEMuleIyZXgZIO6wXJ8iz4IVi"
+            id: "34728",
+            files: {
+                docx: 441358,
+                pdf: 441355,
+                xlsx: 441356,
+                plainText: 441357
+            }
         },
         bob: {
-            id: "string",
-            key: "10706~C0dlbzueLfUZGyqJvtyCn26WPJcvD3gtQout8Ox0BSaLiAV01tnlp2aSks1XgUYK"
+            id: "34729",
         },
         charli: {
-            id: "string",
-            key: "10706~4v9A2GNJmNDILSO0iOxXZLknH29KmJinTRXF292vJZzLGT8JTm4dbDJZ1XyUuSJi"
+            id: "34730",
         },
         david: {
-            id: "string",
-            key: "10706~6TMQqWl0m2e0NMmudpFn8ZvGAg2p4ECO9TgaHhx74K4wc0cQXqlUt8CjEwm06xjq"
+            id: "34731",
         },
         eugene: {
-            id: "string",
-            key: "string"
+            id: "34766",
         },
         faith: {
-            id: "string",
-            key: "string"
+            id: "34767",
         },
         guy: {
-            id: "string",
-            key: "string"
+            id: "34768",
         },
         hope: {
-            id: "string",
-            key: "string"
+            id: "34769",
         },
         ima: {
-            id: "string",
-            key: "string"
+            id: "34770",
         },
     },
     admin: { // Can this pull from local auth.json?
