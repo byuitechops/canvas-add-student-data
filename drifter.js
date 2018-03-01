@@ -24,11 +24,6 @@ var drifter = {
         },
         charli: {
             id: "34730",
-            <<
-            <<
-            <<
-            <
-            HEAD
             posts: [
                 "So I really like getting together with my group and doing this research. I grew up in Salt Lake Utah and this is my first semester here and so I haven’t really experienced much. I never have had to deal with many of these issues that we studied. That was more for the liberals. I never was really close to anyone who struggled with same sex attraction and I know people who are divorced but I never really understood much about it. Of course, there were people with addictions but I never really thought that much could help them. It pains me to say these things but they were my reality. Watching these videos and having this amazing conversations with the others in my group who have struggled or know of someone who has struggled with these things has helped me see so much more. I tended to keep the gospel separate from politics but from these videos I can see that all these political conversations are really just conversations about people. I love now knowing where I can go to find more answers about modern day issues because to be honest, it IS a struggle. I love knowing that the atonement can help everyone, and I mean really everyone."
             ],
