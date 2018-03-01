@@ -14,12 +14,11 @@ function submitQuiz(studentKey, quizId, courseId, submission, cb) {
 
 }
 
-function submitDiscussionPost(studentKey, boardId, courseId, post, cb) {
-    canvas.changeUser(studentKey);
+function submitDiscussionPost(studentId, boardId, courseId, post, cb) {
     var entry = {
         'message': post
     };
-    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries`, entry, (err, postedEntry) => {
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries?as_user_id=${studentId}`, entry, (err, postedEntry) => {
         if (err)
             cb(err);
         else
@@ -28,12 +27,11 @@ function submitDiscussionPost(studentKey, boardId, courseId, post, cb) {
 }
 
 // Haven't tried this, but should work
-function submitDiscussionPostReply(studentKey, boardId, entryId, courseId, post, cb) {
-    canvas.changeUser(studentKey);
+function submitDiscussionPostReply(studentId, boardId, entryId, courseId, post, cb) {
     var entry = {
         'message': post
     };
-    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries/${entryId}/replies`, entry, (err, postedEntry) => {
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries/${entryId}/replies?as_user_id=${studentId}`, entry, (err, postedEntry) => {
         if (err)
             cb(err);
         else

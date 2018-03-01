@@ -36,7 +36,7 @@ function makeDiscussionPosts(drifter, waterCallback) {
     }, ];
 
     function makeDiscussionPost(postObj, eachCallback) {
-        canvasAPICalls.submitDiscussionPost(postObj.student.key, postObj.boardId, drifter.course.id, postObj.message, (discErr, entryId) => {
+        canvasAPICalls.submitDiscussionPost(postObj.student.id, postObj.boardId, drifter.course.id, postObj.message, (discErr, entryId) => {
             if (discErr) {
                 eachCallback(discErr);
                 return;
