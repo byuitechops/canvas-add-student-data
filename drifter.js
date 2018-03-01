@@ -1,5 +1,3 @@
-const auth = require('./auth.json');
-
 var drifter = {
     course: {
         id: ""
@@ -7,22 +5,25 @@ var drifter = {
     students: {
         alice: {
             id: "34728",
-            key: "10706~pc9Xet4wma3BBVv41fHtab7cVEsvVI9BOTJ6b9KbEMuleIyZXgZIO6wXJ8iz4IVi",
             posts: [
                 "So I have struggled for a while with the fact that I’m deaf. I wrote my “this I believe” essay about the ways I feel like I can hear. I never realized all the different ways actually. I felt very sad for the one thing I lacked that it wasn’t until I was beginning college that I had an epiphany that there were so many things I gain because of what I lacked. This was healing to me because for the first time, I felt confident in it. And this wasn’t new information for me because it was something I had to discover a while ago but I had forgotten about it. I have been struggling with other things in my life and recalling what I’ve been through has helped me have gratitude for what I have now. I think that’s why we are constantly urged to remember."
             ],
             replies: [
                 "That’s so cool! I love how you can find lessons in everything and that you applied it to your own life by going out and looking for art. I’m an Art major so it makes me so happy to hear that you see what I see in art.",
                 "Me too! I actually thought I was doing pretty good, but I never thought about having savings. I just set up a savings account now and I have some goals for it. That’s a first for me!"
-            ]
+            ],
+            files: {
+                docx: 441358,
+                pdf: 441355,
+                xlsx: 441356,
+                plainText: 441357
+            }
         },
         bob: {
             id: "34729",
-            key: "10706~S6YVKSkEFCNKVLR83xPKPsBpp0vlLf0WKjtW35NyIgDhQemVyIbUf7ppqe2HJKwv"
         },
         charli: {
             id: "34730",
-            key: "10706~4v9A2GNJmNDILSO0iOxXZLknH29KmJinTRXF292vJZzLGT8JTm4dbDJZ1XyUuSJi",
             posts: [
                 "So I really like getting together with my group and doing this research. I grew up in Salt Lake Utah and this is my first semester here and so I haven’t really experienced much. I never have had to deal with many of these issues that we studied. That was more for the liberals. I never was really close to anyone who struggled with same sex attraction and I know people who are divorced but I never really understood much about it. Of course, there were people with addictions but I never really thought that much could help them. It pains me to say these things but they were my reality. Watching these videos and having this amazing conversations with the others in my group who have struggled or know of someone who has struggled with these things has helped me see so much more. I tended to keep the gospel separate from politics but from these videos I can see that all these political conversations are really just conversations about people. I love now knowing where I can go to find more answers about modern day issues because to be honest, it IS a struggle. I love knowing that the atonement can help everyone, and I mean really everyone."
             ],
@@ -33,7 +34,6 @@ var drifter = {
         },
         david: {
             id: "34731",
-            key: "10706~6TMQqWl0m2e0NMmudpFn8ZvGAg2p4ECO9TgaHhx74K4wc0cQXqlUt8CjEwm06xjq",
             posts: [
                 "So I was in the group that submitted the video about addiction. It was really personal to me because this is the story of my uncle too. He became addicted to heroine and left his kids and wife because he felt like it was better for them. I remember how angry I was because I thought, well if you just quit your addiction than that would be better. My family has kind of outcast my uncle. He was arrested too and has become sober and tried to reconnect with us but my parents are struggling with forgiving him. After this video I reached out to him and told him how angry I had been but that i was starting to understand. It’s been a week now and we are having some pretty deep discussions. I’m not sure if he will ever return to his family or to the church but we’re becoming close again and I’m beginning to see things from his side. He just wants to be a part of our family again. I think he is starting to have hope now, and I personally hope that my family can reach out to him too. He could use it."
             ],
@@ -44,7 +44,6 @@ var drifter = {
         },
         eugene: {
             id: "34766",
-            key: "10706~9WcL0AiNY396WwJ4VdKzjLMZmxUzHbgcueyP3gghYGEmiFwLAOqUZDwWZYxhOwp4",
             posts: [
                 "These projects made me think about how I communicate what I believe in. I typically don’t. Other than testimony meetings and things like that, I believe doesn’t really exist in my everyday conversation. I know I kind of made a joke from what I submitted but it is really because it was hard for me to find something to really be serious about. I could have tried harder but still it has made me think about what things around me are things I don’t think about. I wrote about a jukebox and how it has been left behind. I guess that’s how I feel. I served a mission, and I do all my home teaching and I try to everything I’m supposed to but I’m single and nearly 27 years old. I have friends who all have moved on with kids and careers and such and I feel like an antique that has been forgotten. I guess I’m just wishing that someone would look at me and tell me that they think I’m still okay."
             ],
@@ -55,11 +54,9 @@ var drifter = {
         },
         faith: {
             id: "34767",
-            key: "10706~coPBUwugSHuVaAs1m1RHLsrx1U2SP7VUwIEw37Dp0RpGzdQYdiAP1iMMCafvfRDD"
         },
         guy: {
             id: "34768",
-            key: "10706~j4eFz0oVOumleJbjF4U44ReCKKn0MUZTUtYYMmF0zKjQ5Vc6tlESb3bDdOILuCKi",
             posts: [
                 "So I wrote about my car in my love letter. I actually thought it was a stupid thing actually (sorry teacher, you proved me wrong.) I was doing this assignment just before I was about to go out grocery shopping with my wife and I was thinking back to when I first met her. The reason that I went on a date was because my dad had promised me a car when I finally got married and I figured that I needed to get moving forward. She actually was super interested in my car and I realized how great she was. I wrote as if it was right before that first date and I laughed a lot about how messed my priorities were. It wasn’t until I was driving in my car (yeah, the same car I was talking about) and thinking about bills and school and stuff that I realized that very little has changed in that aspect. My priorities still are messed up. I cared more about the snow that my wife had accidently brought into the car than the fact that she had been quiet the entire way. Instead of taking her to grocery store first, I took her on a surprise date and listened to her day. So there you go, I was wrong about this assignment. It has helped me wake up.",
             ],
@@ -71,7 +68,6 @@ var drifter = {
         },
         hope: {
             id: "34769",
-            key: "10706~v9Bx7TJM150WzQdmWkG6Hgmc9FKO8ivGaecMlYF32GJVansgw2woIg2vbXb7vsFD",
             posts: [
                 "The best experience for me in these projects was the art assignment. I have never been too good with art. I struggle with even drawing a stick figure. So I have ignored art for the majority of my life. But it was so cool to learn that it really isn’t that hard. I went to the Spori art gallery after I finished this assignment with my boyfriend and I saw all these pieces that would have bored me and I saw all the shapes that I had not noticed before. I began to see why people would love it so much. It sounds cheesy but I realized that our lives are made of the basic shapes of the gospel and Heavenly Father takes those basic shapes to make the doctrine of the church and our own testimonies. They are all different but all the same in the end. Who knew that my faith would be strengthened by drawing shapes?"
             ],
@@ -82,7 +78,6 @@ var drifter = {
         },
         ima: {
             id: "34770",
-            key: "10706~wV62Y2ozXpvKfyk3SlJQbuAZVmsdxRpeeGbp86bl99nfYaCGp2u1dmjLEI3SGQay",
             posts: [
                 "It’s funny because everyone is talking about all the written assignment which I’m usually all about, but the one that affected me the most was the budgeting project. I have had a lot of stress in my life about finances and I actually think about it too much I think. I haven’t been good about paying my bills and it wasn’t until I filled out the worksheet that I realized how simple it would be to fix this problem. I’m now sticking to my new budget and it makes all the difference. I never thought it really would, I’m living more frugally about my extra expenses and I’m doing better about being an adult. I’m better about paying my tithing too. I think I’m going to track that more often and see how I can improve still. I’ve always been bad at math but this surprised me in how easy it was and how it made everything make sense."
             ],
@@ -90,11 +85,7 @@ var drifter = {
                 "This breaks my heart! You’re a good guy Eugene. I didn’t get married until latter in my life as well. And it was hard. Sorry if it embarresses you to have all this attention, but I think it’s good that you dived down into these assignments, even after you submitted them.",
                 "I feel the same! My best friend struggles with same sex- attraction and we love him so much but it was hard for me in the beginning. I kind of went through the same process as the dad did. I think this is what education is all about."
             ]
-        },
-    },
-    admin: { // Can this pull from local auth.json?
-        id: auth.id,
-        key: auth.token
+        }
     },
     messages: [{ // This is a template message
         name: "string",

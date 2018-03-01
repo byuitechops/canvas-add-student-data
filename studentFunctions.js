@@ -145,7 +145,7 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
     }, ];
 
     function makeDiscussionPost(postObj, eachCallback) {
-        canvasAPICalls.submitDiscussionPostReply(postObj.student.key, postObj.boardId, postObj.entryId, drifter.course.id, postObj.message, (discErr, replyId) => {
+        canvasAPICalls.submitDiscussionPostReply(postObj.student.id, postObj.boardId, postObj.entryId, drifter.course.id, postObj.message, (discErr, replyId) => {
             if (discErr) {
                 eachCallback(discErr);
                 return;
@@ -163,6 +163,18 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
 
         waterCallback(null, drifter);
     });
+}
+
+function makeGroupCategories() {
+
+}
+
+function makeGroups() {
+
+}
+
+function putStudentsInGroups() {
+
 }
 
 function makeAssignmentSubmissions(drifter, waterCallback) {

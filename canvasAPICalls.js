@@ -15,10 +15,9 @@ function submitQuiz(studentKey, quizId, courseId, submission, cb) {
 }
 
 function submitDiscussionPost(studentId, boardId, courseId, post, cb) {
-    var entry = {
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries?as_user_id=${studentId}`, {
         'message': post
-    };
-    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries?as_user_id=${studentId}`, entry, (err, postedEntry) => {
+    }, (err, postedEntry) => {
         if (err)
             cb(err);
         else
@@ -28,10 +27,9 @@ function submitDiscussionPost(studentId, boardId, courseId, post, cb) {
 
 // Haven't tried this, but should work
 function submitDiscussionPostReply(studentId, boardId, entryId, courseId, post, cb) {
-    var entry = {
+    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries/${entryId}/replies?as_user_id=${studentId}`, {
         'message': post
-    };
-    canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries/${entryId}/replies?as_user_id=${studentId}`, entry, (err, postedEntry) => {
+    }, (err, postedEntry) => {
         if (err)
             cb(err);
         else
@@ -39,9 +37,8 @@ function submitDiscussionPostReply(studentId, boardId, entryId, courseId, post, 
     });
 }
 
-function submitAssignmentById(studentKey, assignmentId, courseId, fileId, cb) {
-    canvas.changeUser(studentKey);
-    var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions`,
+function submitAssignmentById(studentId, assignmentId, courseId, fileId, cb) {
+    var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions?as_user_id=${studentId}`,
         postObj = {
             "submission[submission_type]": 'online_upload',
             "submission[file_ids][]": `${fileId}`,
@@ -56,9 +53,8 @@ function submitAssignmentById(studentKey, assignmentId, courseId, fileId, cb) {
     });
 }
 
-function submitAssignmentText(studentKey, assignmentId, courseId, text, cb) {
-    canvas.changeUser(studentKey);
-    var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions/`,
+function submitAssignmentText(studentId, assignmentId, courseId, text, cb) {
+    var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions?as_user_id=${studentId}`,
         postObj = {
             submission: {
                 submission_type: 'online_text_entry',
@@ -87,9 +83,7 @@ function submitAssignment(url, postObj, cb) {
 }
 
 /*** Admin Level Calls ***/
-function makeGroupCategory(adminKey, courseId, settings, cb) {
-    /* set the user */
-    canvas.changeUser(adminKey);
+function makeGroupCategory(courseId, settings, cb) {
 
     /* settings can contain name, self-signup, and groupCount */
     var postObj = {
@@ -108,8 +102,7 @@ function makeGroupCategory(adminKey, courseId, settings, cb) {
     });
 }
 
-function makeGroup(adminKey, groupCategoryId, name, cb) {
-    canvas.changeUser(adminKey);
+function makeGroup(groupCategoryId, name, cb) {
 
     var uri = `/api/v1/group_categories/${groupCategoryId}/groups`,
         postObj = {
