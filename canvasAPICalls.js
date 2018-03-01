@@ -21,7 +21,7 @@ function submitDiscussionPost(studentKey, boardId, courseId, post, cb) {
     };
     canvas.post(`/api/v1/courses/${courseId}/discussion_topics/${boardId}/entries`, entry, (err, postedEntry) => {
         if (err)
-            cb(err, postedEntry.id);
+            cb(err);
         else
             cb(null, postedEntry.id);
     });
@@ -136,7 +136,7 @@ function enrollStudentsInGroup(adminKey, groupId, students, cb) {
         };
 
     canvas.put(uri, settings, (err, changedGroup) => {
-        if(err) {
+        if (err) {
             cb(err);
             return;
         }

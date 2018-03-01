@@ -1,6 +1,10 @@
-var buildCourses = require('./teacherCoursesAndEnrollments.js');
+var buildCourses = require('./buildCourses.js');
+var addStudentData = require('./studentFunctions.js');
 
 buildCourses()
-    .then(courses => {
+    .then(addStudentData)
+    .then(courseDataObjects => {
         console.log('Complete');
     });
+
+// addStudentData();

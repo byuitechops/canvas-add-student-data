@@ -1,25 +1,38 @@
 const asyncLib = require('async');
 const canvasAPICalls = require('./canvasAPICalls.js');
 const populateDrifter = require('./populateDrifter.js');
+const fs = require('fs');
 
 function makeDiscussionPosts(drifter, waterCallback) {
 
     var posts = [{
-        student: drifter.students.alice,
+        student: drifter.students.hope,
         boardId: drifter.discussions.topic.id,
-        message: 'THE MOON LANDING WAS DONE WITH TINFOIL AND A BAD VIDEO CAMERA'
+        message: drifter.students.hope.posts[0]
     }, {
-        student: drifter.students.bob,
+        student: drifter.students.eugene,
         boardId: drifter.discussions.topic.id,
-        message: 'CONSPIRACY THEORIES ARE THE WORST'
+        message: drifter.students.eugene.posts[0]
+    }, {
+        student: drifter.students.guy,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.guy.posts[0]
+    }, {
+        student: drifter.students.ima,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.ima.posts[0]
     }, {
         student: drifter.students.charli,
         boardId: drifter.discussions.topic.id,
-        message: 'LET US OFT SPEAK KIND WOOOOOORDS TO EACH OTHERRRRR'
+        message: drifter.students.charli.posts[0]
+    }, {
+        student: drifter.students.alice,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.alice.posts[0]
     }, {
         student: drifter.students.david,
         boardId: drifter.discussions.topic.id,
-        message: 'HI GUYS'
+        message: drifter.students.david.posts[0]
     }, ];
 
     function makeDiscussionPost(postObj, eachCallback) {
@@ -30,6 +43,7 @@ function makeDiscussionPosts(drifter, waterCallback) {
             }
 
             drifter.discussions.topic.entries.push(entryId);
+            console.log(`Discussion post created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
@@ -47,20 +61,87 @@ function makeDiscussionPosts(drifter, waterCallback) {
 function makeDiscussionPostReplies(drifter, waterCallback) {
 
     var posts = [{
+        // Post 1
         entryId: drifter.discussions.topic.entries[0],
-        student: drifter.students.bob,
+        student: drifter.students.eugene,
         boardId: drifter.discussions.topic.id,
-        message: 'WE ALL KNOW YOU DON\'T BELIEVE IN THE MOON LANDING, ALICE'
+        message: drifter.students.eugene.replies[0]
     }, {
-        entryId: drifter.discussions.topic.entries[1],
+        entryId: drifter.discussions.topic.entries[0],
         student: drifter.students.alice,
         boardId: drifter.discussions.topic.id,
-        message: 'CONSPIRACY THEORIES ARE THE BEST'
+        message: drifter.students.alice.replies[0]
     }, {
-        entryId: drifter.discussions.topic.entries[0],
-        student: drifter.students.bob,
+        // Post 2
+        entryId: drifter.discussions.topic.entries[1],
+        student: drifter.students.david,
         boardId: drifter.discussions.topic.id,
-        message: 'NUH UH'
+        message: drifter.students.david.replies[0]
+    }, {
+        entryId: drifter.discussions.topic.entries[1],
+        student: drifter.students.ima,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.ima.replies[0]
+    }, {
+        // Post 3
+        entryId: drifter.discussions.topic.entries[2],
+        student: drifter.students.eugene,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.eugene.replies[1]
+    }, {
+        entryId: drifter.discussions.topic.entries[2],
+        student: drifter.students.guy,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.guy.replies[0]
+    }, {
+        entryId: drifter.discussions.topic.entries[2],
+        student: drifter.students.david,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.david.replies[1]
+    }, {
+        // Post 4
+        entryId: drifter.discussions.topic.entries[3],
+        student: drifter.students.charli,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.charli.replies[0]
+    }, {
+        entryId: drifter.discussions.topic.entries[3],
+        student: drifter.students.alice,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.alice.replies[1]
+    }, {
+        // Post 5
+        entryId: drifter.discussions.topic.entries[4],
+        student: drifter.students.ima,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.ima.replies[1]
+    }, {
+        entryId: drifter.discussions.topic.entries[4],
+        student: drifter.students.guy,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.guy.replies[1]
+    }, {
+        // Post 6
+        entryId: drifter.discussions.topic.entries[5],
+        student: drifter.students.guy,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.guy.replies[2]
+    }, {
+        entryId: drifter.discussions.topic.entries[5],
+        student: drifter.students.hope,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.hope.replies[0]
+    }, {
+        // Post 7
+        entryId: drifter.discussions.topic.entries[6],
+        student: drifter.students.hope,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.hope.replies[1]
+    }, {
+        entryId: drifter.discussions.topic.entries[6],
+        student: drifter.students.charli,
+        boardId: drifter.discussions.topic.id,
+        message: drifter.students.charli.replies[1]
     }, ];
 
     function makeDiscussionPost(postObj, eachCallback) {
@@ -69,6 +150,7 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
                 eachCallback(discErr);
                 return;
             }
+            console.log(`Discussion post reply created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
@@ -112,18 +194,40 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
     asyncLib.eachSeries(submissions, makeAssignmentSubmission, waterCallback);
 }
 
-var functionCalls = [
-    populateDrifter,
-    makeDiscussionPosts,
-    makeDiscussionPostReplies,
-    makeAssignmentSubmissions
-];
 
-asyncLib.waterfall(functionCalls, (waterErr, results) => {
-    if (waterErr) {
-        console.log(waterErr);
-        return;
-    }
 
-    console.log('Complete');
-});
+
+module.exports = () => {
+    return new Promise((resolve, reject) => {
+
+        var data = fs.readFileSync('./courseData.json');
+
+        var dataObjects = JSON.parse(data);
+
+        asyncLib.eachSeries(dataObjects, (courseData, eachCallback) => {
+
+            var functionCalls = [
+                asyncLib.constant(courseData),
+                populateDrifter,
+                makeDiscussionPosts,
+                makeDiscussionPostReplies,
+                makeAssignmentSubmissions
+            ];
+
+            asyncLib.waterfall(functionCalls, (waterErr, results) => {
+                if (waterErr) {
+                    eachCallback(waterErr);
+                    return;
+                }
+                console.log('Completed waterfall for course');
+                eachCallback(null);
+            });
+
+        }, (eachErr) => {
+            if (eachErr) return reject(eachErr);
+            console.log('Complete Each Course Waterfall');
+            resolve();
+        });
+
+    });
+};

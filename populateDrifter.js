@@ -2,9 +2,10 @@ const asyncLib = require('async');
 const canvas = require('canvas-wrapper');
 var drifter = require('./drifter.js');
 
-module.exports = (callback) => {
+module.exports = (courseData, callback) => {
 
     function setItems(object, cb) {
+
         function setItem(item, eachCallback) {
             canvas.get(`${object.uri}?search_term=${item.search}`, (err, assignmentArr) => {
                 if (err) {
@@ -25,6 +26,8 @@ module.exports = (callback) => {
         });
     }
 
+    drifter.course.id = courseData.course.id;
+
     var itemObjs = [{
         uri: `/api/v1/courses/${drifter.course.id}/assignments`,
         items: drifter.assignments
@@ -41,8 +44,6 @@ module.exports = (callback) => {
             callback(err);
             return;
         }
-
-        console.log(drifter);
 
         callback(null, drifter);
     });
