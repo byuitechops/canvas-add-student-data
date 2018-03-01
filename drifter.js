@@ -6,39 +6,39 @@ var drifter = {
     },
     students: {
         alice: {
-            id: "string", // Do we need these at all?
+            id: "34728", // Do we need these at all?
             key: "10706~pc9Xet4wma3BBVv41fHtab7cVEsvVI9BOTJ6b9KbEMuleIyZXgZIO6wXJ8iz4IVi"
         },
         bob: {
-            id: "string",
+            id: "34729",
             key: "10706~C0dlbzueLfUZGyqJvtyCn26WPJcvD3gtQout8Ox0BSaLiAV01tnlp2aSks1XgUYK"
         },
         charli: {
-            id: "string",
+            id: "34730",
             key: "10706~4v9A2GNJmNDILSO0iOxXZLknH29KmJinTRXF292vJZzLGT8JTm4dbDJZ1XyUuSJi"
         },
         david: {
-            id: "string",
+            id: "34731",
             key: "10706~6TMQqWl0m2e0NMmudpFn8ZvGAg2p4ECO9TgaHhx74K4wc0cQXqlUt8CjEwm06xjq"
         },
         eugene: {
-            id: "string",
+            id: "34766",
             key: "string"
         },
         faith: {
-            id: "string",
+            id: "34767",
             key: "string"
         },
         guy: {
-            id: "string",
+            id: "34768",
             key: "string"
         },
         hope: {
-            id: "string",
+            id: "34769",
             key: "string"
         },
         ima: {
-            id: "string",
+            id: "34770",
             key: "string"
         },
     },
@@ -54,36 +54,36 @@ var drifter = {
     quizzes: { // This and below needs to be dynamically discovered based on name or URL
         multipleChoice: {
             id: "string",
-            search: "Example Quiz 1"
+            search: "L12: Quiz 1"
         },
         essayQuestions: {
             id: "string",
-            search: "Example Quiz 2"
+            search: "L12: Quiz 2"
         },
     },
     discussions: {
         topic: {
             id: "string",
-            search: "Example Discussion 1",
+            search: "L12 Discussion: Practice Take Aways",
             entries: [],
         },
     },
     assignments: {
         pdf: {
             id: "string",
-            search: "Example Assignment 1"
+            search: "L12 Practice: Basic Silhouettes and Shapes"
         },
         docx: {
             id: "string",
-            search: "Example Assignment 2"
+            search: "L12 Paper: This I Believe"
         },
         xlsx: {
             id: "string",
-            search: "Example Assignment 3"
+            search: "L12 Excel Practice: Personal Budget Project"
         },
         group: {
             id: "string",
-            search: "Example Assignment 4"
+            search: "L12 Group Activity: Modern Day Issues"
         },
     },
     groups: {
