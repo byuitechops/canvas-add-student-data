@@ -4,6 +4,7 @@ const fs = require('fs');
 const canvas = require('canvas-wrapper');
 const masterCourse = 4870;
 const drifter = require('./drifter.js');
+const chalk = require('chalk');
 
 // Get names from cSV
 var enrollFile = fs.readFileSync('enrollList.csv', 'utf8');
@@ -35,10 +36,11 @@ function makeCourse(courseData) {
             'offer': true
         };
         canvas.post(`/api/v1/accounts/13/courses`, putObj, (err, newCourse) => {
+            if (err) reject(err);
             courseData.course = {
                 id: newCourse.id
             };
-            if (err) reject(err);
+            console.log(`${chalk.cyanBright('Course Created')}: ${courseData.teacher.name} Sandbox`);
             resolve(courseData);
         });
     });
@@ -56,7 +58,7 @@ function makeBluePrintChild(courseData) {
                 failedCourses.push(courseData);
                 return reject(err);
             }
-            console.log(`Course Complete: ${courseData.teacher.name} Sandbox`);
+            console.log(`${chalk.greenBright('Course Associated')}: ${courseData.teacher.name} Sandbox`);
             resolve(courseData);
         });
     });
@@ -132,160 +134,43 @@ function syncAssociatedCourses(courseObjects) {
     });
 }
 
-// function getAssignments(courseData) {
-//     return new Promise((resolve, reject) => {
-//         asyncLib.map(drifter.assignments, (assignment, callback) => {
-
-//             canvas.get(`/api/v1/courses/${courseData.course.id}/assignments?search_term=${assignment.search}`, (getErr, result) => {
-//                 if (getErr) {
-//                     callback(getErr);
-//                     return;
-//                 }
-//                 if (result) {
-//                     let newAssignment = {
-//                         name: assignment.search,
-//                         id: result[0].id
-//                     };
-//                     callback(null, newAssignment);
-//                 } else {
-//                     console.log(`Assignment --- "${assignment.search}" was not found in the course!`);
-//                 }
-//             });
-
-//         }, (err, assignmentObjects) => {
-//             if (err) return reject(err);
-//             courseData.course.assignments = assignmentObjects;
-//             resolve(courseData);
-//         });
-//     });
-// }
-
-// function getQuizzes(courseData) {
-//     return new Promise((resolve, reject) => {
-//         asyncLib.map(drifter.quizzes, (quiz, callback) => {
-
-//             canvas.get(`/api/v1/courses/${courseData.course.id}/quizzes?search_term=${quiz.search}`, (getErr, result) => {
-//                 if (getErr) {
-//                     callback(getErr);
-//                     return;
-//                 }
-//                 if (result) {
-//                     let newQuiz = {
-//                         name: quiz.search,
-//                         id: result[0].id
-//                     };
-//                     callback(null, newQuiz);
-//                 } else {
-//                     console.log(`Quiz --- "${quiz.search}" was not found in the course!`);
-//                 }
-//             });
-
-//         }, (err, quizObjects) => {
-//             if (err) return reject(err);
-//             courseData.course.quizzes = quizObjects;
-//             resolve(courseData);
-//         });
-//     });
-// }
-
-// function getDiscussions(courseData) {
-//     return new Promise((resolve, reject) => {
-//         courseData.course.discussions = {};
-//         asyncLib.eachOf(drifter.discussions, (value, key, callback) => {
-//             console.log(key);
-
-//             canvas.get(`/api/v1/courses/${courseData.course.id}/discussion_topics?search_term=${value.search}`, (getErr, result) => {
-//                 if (getErr) {
-//                     callback(getErr);
-//                     return;
-//                 }
-//                 if (result) {
-//                     courseData.course.discussions[key] = {
-//                         name: value.search,
-//                         id: result[0].id
-//                     };
-//                     callback(null);
-//                 } else {
-//                     console.log(`Discussion --- "${value.search}" was not found in the course!`);
-//                 }
-//             });
-
-//         }, (err) => {
-//             if (err) return reject(err);
-//             // courseData.course.discussions = discussionObjects;
-//             resolve(courseData);
-//         });
-//     });
-// }
-
-// function getContentIDs(courseObjects) {
-//     return new Promise((resolve, reject) => {
-//         asyncLib.mapLimit(courseObjects, 20, (courseData, mapCallback) => {
-
-//             getAssignments(courseData)
-//                 .then(getQuizzes)
-//                 .then(getDiscussions)
-//                 .then((newCourseData) => {
-//                     mapCallback(null, newCourseData);
-//                 })
-//                 .catch(mapCallback);
-
-//         }, (eachErr, newCourseObjects) => {
-//             if (eachErr) return reject(eachErr);
-//             resolve(newCourseObjects);
-//         });
-//     });
-// }
-
-// function enrollTeacher(teacher) {
-
-//     return new Promise((resolve, reject) => {
-
-//         var enrollmentObj = {
-//             enrollment: {
-//                 user_id: teacher.id,
-//                 type: 'TeacherEnrollment'
-//             }
-//         };
-
-//         canvas.post(`/api/v1/courses/${teacher.course.id}/enrollments`, enrollmentObj, (err, success) => {
-//             if (err) return reject(err);
-//             resolve(teacher);
-//         });
-//     });
-// }
-
 module.exports = () => {
     return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(csv.slice(0, 1), 1, (teacher, mapCB) => {
+        asyncLib.mapLimit(csv.slice(0, 1), 20, (teacher, mapCB) => {
 
             getTeacherObject(teacher)
                 .then(makeCourse)
                 .then(makeBluePrintChild)
                 .then(enrollStudents)
                 .then(courseData => {
+                    courseData.status = 'success';
                     mapCB(null, courseData);
                 })
                 .catch((err) => {
+                    console.log(err);
                     mapCB(null, {
                         teacher: teacher,
-                        status: 'failed'
+                        status: 'failed',
+                        error: JSON.stringify(err)
                     });
                 });
 
         }, (eachErr, courseObjects) => {
             if (eachErr) {
                 console.log(eachErr);
-                console.log(failedCourses);
                 return;
             }
 
             syncAssociatedCourses(courseObjects)
                 // .then(getContentIDs)
                 .then((courseDataObjects) => {
-                    console.log(courseDataObjects);
-                    fs.writeFileSync('./courseData.json', JSON.stringify(courseObjects, null, '\t'));
-                    console.log('Data written to "courseData.json"');
+                    var goodCourses = courseDataObjects.filter(item => item.status === 'success');
+                    var badCourses = courseDataObjects.filter(item => item.status != 'success');
+                    console.log(chalk.greenBright('GOOD COURSES: ') + goodCourses.length);
+                    console.log(chalk.redBright('BAD COURSES: ') + badCourses.length);
+                    fs.writeFileSync('./createdCourses.json', JSON.stringify(goodCourses, null, '\t'));
+                    fs.writeFileSync('./failedCourses.json', JSON.stringify(badCourses, null, '\t'));
+                    console.log(chalk.yellow('Data written to JSON Files'));
                     resolve();
                 })
                 .catch(reject);

@@ -54,12 +54,13 @@ function submitAssignmentById(studentId, assignmentId, courseId, fileId, cb) {
 }
 
 function submitAssignmentText(studentId, assignmentId, courseId, text, cb) {
+
+    var newText = `<div style="white-space:pre-wrap;">${text}</div>`;
+
     var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions?as_user_id=${studentId}`,
         postObj = {
-            submission: {
-                submission_type: 'online_text_entry',
-                body: text
-            }
+            "submission[submission_type]": "online_text_entry",
+            "submission[body]": newText,
         };
 
     submitAssignment(url, postObj, (err, submission) => {
@@ -101,13 +102,13 @@ function makeGroupCategory(courseId, settings, cb) {
 }
 
 function makeGroup(groupCategoryId, name, cb) {
-
-    var uri = `/api/v1/group_categories/${groupCategoryId}/groups`,
+    /* set uri & postObj */
+    var url = `/api/v1/group_categories/${groupCategoryId}/groups`,
         postObj = {
             name: name,
         };
-
-    canvas.post(uri, postObj, (postErr, newGroup) => {
+    /* Create a new group */
+    canvas.post(url, postObj, (postErr, newGroup) => {
         if (postErr) {
             cb(postErr, newGroup);
             return;
@@ -117,13 +118,13 @@ function makeGroup(groupCategoryId, name, cb) {
 }
 
 function enrollStudentsInGroup(groupId, students, cb) {
-
-    var uri = `/api/v1/groups/${groupId}`,
+    /* join all students into a comma separated string */
+    var url = `/api/v1/groups/${groupId}`,
         settings = {
             "members": `${students.join(',')}`
         };
-
-    canvas.put(uri, settings, (err, changedGroup) => {
+    /* Set all students in the group */
+    canvas.put(url, settings, (err, changedGroup) => {
         if (err) {
             cb(err);
             return;

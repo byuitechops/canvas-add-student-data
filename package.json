@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.6.0",
     "canvas-wrapper": "github:byuitechops/canvas-wrapper",
+    "chalk": "^2.3.1",
     "d3-dsv": "^1.0.8",
     "fs": "0.0.1-security"
   }

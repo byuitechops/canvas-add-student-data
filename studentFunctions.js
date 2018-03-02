@@ -167,7 +167,6 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
 
 function makeGroupCategories(drifter, waterCallback) {
     function makeGroupCategory(groupCatObj, eachCallback) {
-        console.log(groupCatObj.settings);
         canvasAPICalls.makeGroupCategory(drifter.course.id, groupCatObj.settings, (cbErr, newCategory) => {
             if (cbErr) {
                 eachCallback(cbErr);
@@ -269,11 +268,33 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
     });
 }
 
+function makeGroupSubmissions(drifter, waterCallback) {
+
+    function submitAssignment(file, key, eCB) {
+        canvasAPICalls.submitAssignmentById(student.id, drifter.assignments[key].id, drifter.course.id, file, (discErr, submission) => {
+            if (discErr) {
+                eCB(discErr);
+                return;
+            }
+            console.log(`Assignment (File) Submitted: ${file} | Student: ${student.id}`);
+            eCB(null);
+        });
+    }
+
+    asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, makeAssignmentSubmission, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
+}
+
 
 module.exports = () => {
     return new Promise((resolve, reject) => {
 
-        var data = fs.readFileSync('./courseData.json');
+        var data = fs.readFileSync('./createdCourses.json');
 
         var dataObjects = JSON.parse(data);
 
@@ -282,8 +303,8 @@ module.exports = () => {
             var functionCalls = [
                 asyncLib.constant(courseData),
                 populateDrifter,
-                // makeDiscussionPosts,
-                // makeDiscussionPostReplies,
+                makeDiscussionPosts,
+                makeDiscussionPostReplies,
                 makeGroupCategories,
                 makeGroups,
                 putStudentsInGroups,
