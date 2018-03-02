@@ -233,7 +233,8 @@ var drifter = {
             groups: [{
                 id: "Batman",
                 name: "Group 1",
-                link1: 'https://www.lds.org/media-library/video/mormon-and-gay?lang=eng',
+                link: 'https://www.lds.org/media-library/video/mormon-and-gay?lang=eng',
+                groupLeader: 34767,
                 students: [
                     34730,
                     34767,
@@ -243,7 +244,8 @@ var drifter = {
             }, {
                 id: "Superman",
                 name: "Group 2",
-                link2: 'https://www.lds.org/media-library/video/2015-08-011-step-11-personal-revelation-lindsays-story-about-heroin-addiction-recovery?category=12-steps-to-change&lang=eng',
+                link: 'https://www.lds.org/media-library/video/2015-08-011-step-11-personal-revelation-lindsays-story-about-heroin-addiction-recovery?category=12-steps-to-change&lang=eng',
+                groupLeader: 34731,
                 students: [
                     34728,
                     34770,

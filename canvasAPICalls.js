@@ -43,14 +43,7 @@ function submitAssignmentById(studentId, assignmentId, courseId, fileId, cb) {
             "submission[submission_type]": 'online_upload',
             "submission[file_ids][]": `${fileId}`,
         };
-    submitAssignment(url, postObj, (err, submission) => {
-        if (err) {
-            cb(err);
-            return;
-        }
-
-        cb(null, submission);
-    });
+    submitAssignment(url, postObj, cb);
 }
 
 function submitAssignmentText(studentId, assignmentId, courseId, text, cb) {
@@ -62,15 +55,17 @@ function submitAssignmentText(studentId, assignmentId, courseId, text, cb) {
             "submission[submission_type]": "online_text_entry",
             "submission[body]": newText,
         };
+    submitAssignment(url, postObj, cb);
+}
 
-    submitAssignment(url, postObj, (err, submission) => {
-        if (err) {
-            cb(err);
-            return;
-        }
+function submitAssigmentURL(studentId, assignmentId, courseId, postUrl, cb) {
+    var url = `/api/v1/courses/${courseId}/assignments/${assignmentId}/submissions?as_user_id=${studentId}`,
+        postObj = {
+            "submission[submission_type]": 'online_url',
+            "submission[url]": postUrl
+        };
 
-        cb(null, submission);
-    });
+    submitAssignment(url, postObj, cb);
 }
 
 /*** helper functions ***/
@@ -148,6 +143,7 @@ module.exports = {
     submitDiscussionPostReply: submitDiscussionPostReply,
     submitAssignmentById: submitAssignmentById,
     submitAssignmentText: submitAssignmentText,
+    submitAssigmentURL: submitAssigmentURL,
     makeGroup: makeGroup,
     makeGroupCategory: makeGroupCategory,
     enrollStudentsInGroup: enrollStudentsInGroup,

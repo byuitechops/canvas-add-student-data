@@ -83,6 +83,7 @@ function enrollStudents(courseData) {
                     callback(err);
                     return;
                 }
+
                 callback(null);
             });
 

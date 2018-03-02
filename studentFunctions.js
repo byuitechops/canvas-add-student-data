@@ -270,18 +270,18 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
 
 function makeGroupSubmissions(drifter, waterCallback) {
 
-    function submitAssignment(file, key, eCB) {
-        canvasAPICalls.submitAssignmentById(student.id, drifter.assignments[key].id, drifter.course.id, file, (discErr, submission) => {
+    function submitAssignment(groupObj, eCB) {
+        canvasAPICalls.submitAssigmentURL(groupObj.leader, drifter.assignments.url.id, drifter.course.id, groupObj.link, (discErr, submission) => {
             if (discErr) {
                 eCB(discErr);
                 return;
             }
-            console.log(`Assignment (File) Submitted: ${file} | Student: ${student.id}`);
+            console.log(`Assignment (URL) Submitted: ${groupObj.name} | URL: ${groupObj.link}`);
             eCB(null);
         });
     }
 
-    asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, makeAssignmentSubmission, (err) => {
+    asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, submitAssignment, (err) => {
         if (err) {
             waterCallback(err);
             return;
@@ -303,12 +303,13 @@ module.exports = () => {
             var functionCalls = [
                 asyncLib.constant(courseData),
                 populateDrifter,
-                makeDiscussionPosts,
+                // makeDiscussionPosts,
                 makeDiscussionPostReplies,
                 makeGroupCategories,
                 makeGroups,
                 putStudentsInGroups,
-                makeAssignmentSubmissions
+                // makeAssignmentSubmissions,
+                // makeGroupSubmissions
             ];
 
             asyncLib.waterfall(functionCalls, (waterErr, results) => {
