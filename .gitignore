@@ -3,3 +3,4 @@ auth.json
 drifer.js
 *.json
 student data docs/*
+*.csv
