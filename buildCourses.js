@@ -5,6 +5,7 @@ const canvas = require('canvas-wrapper');
 const masterCourse = 4870;
 const drifter = require('./drifter.js');
 const chalk = require('chalk');
+const chalkAnimation = require('chalk-animation');
 
 // Get names from cSV
 var enrollFile = fs.readFileSync('enrollList.csv', 'utf8');
@@ -101,7 +102,7 @@ function checkMigration(migration) {
         function check() {
             canvas.get(`/api/v1/courses/${masterCourse}/blueprint_templates/default/migrations/${migration.id}`, (err, migrationDets) => {
                 if (err) return reject(err);
-                console.log(`Sync state: ${migrationDets[0].workflow_state}`);
+                chalkAnimation.rainbow(`Sync state: ${migrationDets[0].workflow_state}`);
                 if (migrationDets[0].workflow_state != 'completed') {
                     setTimeout(() => {
                         check();
@@ -137,7 +138,7 @@ function syncAssociatedCourses(courseObjects) {
 
 module.exports = () => {
     return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(csv.slice(0, 20), 20, (teacher, mapCB) => {
+        asyncLib.mapLimit(csv.slice(0, 5), 20, (teacher, mapCB) => {
 
             getTeacherObject(teacher)
                 .then(makeCourse)
@@ -163,7 +164,6 @@ module.exports = () => {
             }
 
             syncAssociatedCourses(courseObjects)
-                // .then(getContentIDs)
                 .then((courseDataObjects) => {
                     var goodCourses = courseDataObjects.filter(item => item.status === 'success');
                     var badCourses = courseDataObjects.filter(item => item.status != 'success');
@@ -177,4 +177,4 @@ module.exports = () => {
                 .catch(reject);
         });
     });
-}
+};

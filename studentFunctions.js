@@ -3,6 +3,7 @@ const canvasAPICalls = require('./canvasAPICalls.js');
 const populateDrifter = require('./populateDrifter.js');
 const fs = require('fs');
 const issues = [];
+const chalkAnimation = require('chalk-animation');
 
 function makeDiscussionPosts(drifter, waterCallback) {
 
@@ -49,14 +50,12 @@ function makeDiscussionPosts(drifter, waterCallback) {
         });
     }
 
+    drifter.discussions.topic.entries = [];
+
     asyncLib.eachSeries(posts, makeDiscussionPost, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
 
         waterCallback(null, drifter);
@@ -162,12 +161,8 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
 
     asyncLib.eachSeries(posts, makeDiscussionPost, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
 
         waterCallback(null, drifter);
@@ -189,12 +184,8 @@ function makeGroupCategories(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.groupCategories, makeGroupCategory, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
         waterCallback(null, drifter);
     });
@@ -215,12 +206,8 @@ function makeGroups(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, makeGroup, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
         waterCallback(null, drifter);
     });
@@ -240,12 +227,8 @@ function putStudentsInGroups(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, addStudents, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
         waterCallback(null, drifter);
     });
@@ -282,12 +265,8 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.students, makeAssignmentSubmission, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
+            return;
         }
         waterCallback(null, drifter);
     });
@@ -308,12 +287,7 @@ function makeGroupSubmissions(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, submitAssignment, (err) => {
         if (err) {
-            console.log(err);
-            issues.push({
-                course: drifter.course.id,
-                error: err
-            });
-            waterCallback(null);
+            waterCallback(err);
             return;
         }
         waterCallback(null, drifter);
@@ -345,15 +319,28 @@ module.exports = () => {
             asyncLib.waterfall(functionCalls, (waterErr, results) => {
                 if (waterErr) {
                     eachCallback(waterErr);
+                    console.log(waterErr);
+                    issues.push({
+                        course: courseData.course.id,
+                        teacher: courseData.teacher.name,
+                        error: waterErr
+                    });
+                    eachCallback(null);
                     return;
                 }
-                console.log(`Completed waterfall for course: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
+                chalkAnimation.rainbow(`Completed waterfall for course: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
                 eachCallback(null);
             });
 
         }, (eachErr) => {
             if (eachErr) return reject(eachErr);
-            console.log('Complete Each Course Waterfall');
+            chalkAnimation.rainbow('Completed All Courses');
+            setTimeout(() => {
+                console.log('\n');
+            }, 3000);
+            if (issues.length > 0) {
+                fs.appendFileSync('./studentDataIssues.json', JSON.stringify(issues));
+            }
             resolve();
         });
 
