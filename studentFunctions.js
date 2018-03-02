@@ -2,6 +2,7 @@ const asyncLib = require('async');
 const canvasAPICalls = require('./canvasAPICalls.js');
 const populateDrifter = require('./populateDrifter.js');
 const fs = require('fs');
+const issues = [];
 
 function makeDiscussionPosts(drifter, waterCallback) {
 
@@ -43,15 +44,19 @@ function makeDiscussionPosts(drifter, waterCallback) {
             }
 
             drifter.discussions.topic.entries.push(entryId);
-            console.log(`Discussion post created for student ID: ${postObj.student.id}`);
+            console.log(`${drifter.course.id} | Discussion post created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
 
     asyncLib.eachSeries(posts, makeDiscussionPost, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
 
         waterCallback(null, drifter);
@@ -150,15 +155,19 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
                 eachCallback(discErr);
                 return;
             }
-            console.log(`Discussion post reply created for student ID: ${postObj.student.id}`);
+            console.log(`${drifter.course.id} | Discussion post reply created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
 
     asyncLib.eachSeries(posts, makeDiscussionPost, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
 
         waterCallback(null, drifter);
@@ -173,15 +182,19 @@ function makeGroupCategories(drifter, waterCallback) {
                 return;
             }
             groupCatObj.id = newCategory.id;
-            console.log(`Group Category Created: ${groupCatObj.settings.name}`);
+            console.log(`${drifter.course.id} | Group Category Created: ${groupCatObj.settings.name}`);
             eachCallback(null);
         });
     }
 
     asyncLib.eachSeries(drifter.groupCategories, makeGroupCategory, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
         waterCallback(null, drifter);
     });
@@ -195,15 +208,19 @@ function makeGroups(drifter, waterCallback) {
                 return;
             }
             groupObj.id = newGroup.id;
-            console.log(`Group Created: ${groupObj.name} ${groupObj.id}`);
+            console.log(`${drifter.course.id} | Group Created: ${groupObj.name} ${groupObj.id}`);
             eachCallback(null);
         });
     }
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, makeGroup, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
         waterCallback(null, drifter);
     });
@@ -216,15 +233,19 @@ function putStudentsInGroups(drifter, waterCallback) {
                 eachCallback(cbErr);
                 return;
             }
-            console.log(`Group Enrollments Created: ${groupObj.name} | ${groupObj.students}`);
+            console.log(`${drifter.course.id} | Group Enrollments Created: ${groupObj.name} | ${groupObj.students}`);
             eachCallback(null);
         });
     }
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, addStudents, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
         waterCallback(null, drifter);
     });
@@ -241,7 +262,7 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
                         eCB(discErr);
                         return;
                     }
-                    console.log(`Assignment (File) Submitted: ${file} | Student: ${student.id}`);
+                    console.log(`${drifter.course.id} | Assignment (File) Submitted: ${file} | Student: ${student.id}`);
                     eCB(null);
                 });
             } else {
@@ -250,7 +271,7 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
                         eCB(discErr);
                         return;
                     }
-                    console.log(`Assignment (Text) Submitted - Student: ${student.id}`);
+                    console.log(`${drifter.course.id} | Assignment (Text) Submitted - Student: ${student.id}`);
                     eCB(null);
                 });
             }
@@ -261,8 +282,12 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
 
     asyncLib.eachSeries(drifter.students, makeAssignmentSubmission, (err) => {
         if (err) {
-            waterCallback(err);
-            return;
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
         }
         waterCallback(null, drifter);
     });
@@ -271,19 +296,24 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
 function makeGroupSubmissions(drifter, waterCallback) {
 
     function submitAssignment(groupObj, eCB) {
-        canvasAPICalls.submitAssigmentURL(groupObj.leader, drifter.assignments.url.id, drifter.course.id, groupObj.link, (discErr, submission) => {
+        canvasAPICalls.submitAssigmentURL(groupObj.groupLeader, drifter.assignments.url.id, drifter.course.id, groupObj.link, (discErr, submission) => {
             if (discErr) {
                 eCB(discErr);
                 return;
             }
-            console.log(`Assignment (URL) Submitted: ${groupObj.name} | URL: ${groupObj.link}`);
+            console.log(`${drifter.course.id} | Assignment (URL) Submitted: ${groupObj.name} | URL: ${groupObj.link}`);
             eCB(null);
         });
     }
 
     asyncLib.eachSeries(drifter.groupCategories.groupAssignments.groups, submitAssignment, (err) => {
         if (err) {
-            waterCallback(err);
+            console.log(err);
+            issues.push({
+                course: drifter.course.id,
+                error: err
+            });
+            waterCallback(null);
             return;
         }
         waterCallback(null, drifter);
@@ -303,13 +333,13 @@ module.exports = () => {
             var functionCalls = [
                 asyncLib.constant(courseData),
                 populateDrifter,
-                // makeDiscussionPosts,
+                makeDiscussionPosts,
                 makeDiscussionPostReplies,
                 makeGroupCategories,
                 makeGroups,
                 putStudentsInGroups,
-                // makeAssignmentSubmissions,
-                // makeGroupSubmissions
+                makeAssignmentSubmissions,
+                makeGroupSubmissions
             ];
 
             asyncLib.waterfall(functionCalls, (waterErr, results) => {
@@ -317,7 +347,7 @@ module.exports = () => {
                     eachCallback(waterErr);
                     return;
                 }
-                console.log('Completed waterfall for course');
+                console.log(`Completed waterfall for course: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
                 eachCallback(null);
             });
 

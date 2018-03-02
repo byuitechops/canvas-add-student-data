@@ -40,7 +40,7 @@ function makeCourse(courseData) {
             courseData.course = {
                 id: newCourse.id
             };
-            console.log(`${chalk.cyanBright('Course Created')}: ${courseData.teacher.name} Sandbox`);
+            console.log(`${chalk.cyanBright('Course Created')}: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
             resolve(courseData);
         });
     });
@@ -58,7 +58,7 @@ function makeBluePrintChild(courseData) {
                 failedCourses.push(courseData);
                 return reject(err);
             }
-            console.log(`${chalk.greenBright('Course Associated')}: ${courseData.teacher.name} Sandbox`);
+            console.log(`${chalk.greenBright('Course Associated')}: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
             resolve(courseData);
         });
     });
@@ -137,7 +137,7 @@ function syncAssociatedCourses(courseObjects) {
 
 module.exports = () => {
     return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(csv.slice(0, 1), 20, (teacher, mapCB) => {
+        asyncLib.mapLimit(csv.slice(0, 20), 20, (teacher, mapCB) => {
 
             getTeacherObject(teacher)
                 .then(makeCourse)

@@ -234,7 +234,7 @@ var drifter = {
                 id: "Batman",
                 name: "Group 1",
                 link: 'https://www.lds.org/media-library/video/mormon-and-gay?lang=eng',
-                groupLeader: 34767,
+                groupLeader: 34730,
                 students: [
                     34730,
                     34767,
