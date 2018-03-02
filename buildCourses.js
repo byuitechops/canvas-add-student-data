@@ -38,7 +38,7 @@ function makeCourse(courseData) {
             },
             'offer': true
         };
-        canvas.post(`/api/v1/accounts/13/courses`, putObj, (err, newCourse) => {
+        canvas.post(`/api/v1/accounts/8/courses`, putObj, (err, newCourse) => {
             if (err) reject(err);
             courseData.course = {
                 id: newCourse.id
