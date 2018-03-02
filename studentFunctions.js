@@ -45,7 +45,7 @@ function makeDiscussionPosts(drifter, waterCallback) {
             }
 
             drifter.discussions.topic.entries.push(entryId);
-            console.log(`${drifter.course.id} | Discussion post created for student ID: ${postObj.student.id}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Discussion post created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
@@ -154,7 +154,7 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
                 eachCallback(discErr);
                 return;
             }
-            console.log(`${drifter.course.id} | Discussion post reply created for student ID: ${postObj.student.id}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Discussion post reply created for student ID: ${postObj.student.id}`);
             eachCallback(null);
         });
     }
@@ -177,7 +177,7 @@ function makeGroupCategories(drifter, waterCallback) {
                 return;
             }
             groupCatObj.id = newCategory.id;
-            console.log(`${drifter.course.id} | Group Category Created: ${groupCatObj.settings.name}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Group Category Created: ${groupCatObj.settings.name}`);
             eachCallback(null);
         });
     }
@@ -199,7 +199,7 @@ function makeGroups(drifter, waterCallback) {
                 return;
             }
             groupObj.id = newGroup.id;
-            console.log(`${drifter.course.id} | Group Created: ${groupObj.name} ${groupObj.id}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Group Created: ${groupObj.name} ${groupObj.id}`);
             eachCallback(null);
         });
     }
@@ -220,7 +220,7 @@ function putStudentsInGroups(drifter, waterCallback) {
                 eachCallback(cbErr);
                 return;
             }
-            console.log(`${drifter.course.id} | Group Enrollments Created: ${groupObj.name} | ${groupObj.students}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Group Enrollments Created: ${groupObj.name} | ${groupObj.students}`);
             eachCallback(null);
         });
     }
@@ -245,7 +245,7 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
                         eCB(discErr);
                         return;
                     }
-                    console.log(`${drifter.course.id} | Assignment (File) Submitted: ${file} | Student: ${student.id}`);
+                    console.log(`${drifter.courseNumber} | ${drifter.course.id} | Assignment (File) Submitted: ${file} | Student: ${student.id}`);
                     eCB(null);
                 });
             } else {
@@ -254,7 +254,7 @@ function makeAssignmentSubmissions(drifter, waterCallback) {
                         eCB(discErr);
                         return;
                     }
-                    console.log(`${drifter.course.id} | Assignment (Text) Submitted - Student: ${student.id}`);
+                    console.log(`${drifter.courseNumber} | ${drifter.course.id} | Assignment (Text) Submitted - Student: ${student.id}`);
                     eCB(null);
                 });
             }
@@ -280,7 +280,7 @@ function makeGroupSubmissions(drifter, waterCallback) {
                 eCB(discErr);
                 return;
             }
-            console.log(`${drifter.course.id} | Assignment (URL) Submitted: ${groupObj.name} | URL: ${groupObj.link}`);
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Assignment (URL) Submitted: ${groupObj.name} | URL: ${groupObj.link}`);
             eCB(null);
         });
     }
@@ -302,7 +302,9 @@ module.exports = () => {
 
         var dataObjects = JSON.parse(data);
 
-        asyncLib.eachSeries(dataObjects, (courseData, eachCallback) => {
+        asyncLib.eachLimit(dataObjects, 10, (courseData, eachCallback) => {
+
+
 
             var functionCalls = [
                 asyncLib.constant(courseData),

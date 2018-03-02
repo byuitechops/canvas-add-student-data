@@ -3,20 +3,22 @@ const asyncLib = require('async');
 const fs = require('fs');
 const canvas = require('canvas-wrapper');
 const masterCourse = 4870;
-const drifter = require('./drifter.js');
+const Drifter = require('./drifter.js');
+var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
 
 // Get names from cSV
-var enrollFile = fs.readFileSync('enrollList.csv', 'utf8');
+var enrollFile = fs.readFileSync('teacherList.csv', 'utf8');
 var csv = d3.csvParse(enrollFile);
 var failedCourses = [];
+var count = 0;
 
 // Get user ID
 function getTeacherObject(teacher) {
     return new Promise((resolve, reject) => {
-        canvas.get(`/api/v1/accounts/1/users?search_term=${teacher.user_id}`, (err, user) => {
-            if (err) reject(err);
+        canvas.get(`/api/v1/accounts/1/users?search_term=${teacher.long_name.split('  Sandbox')[0]}`, (err, user) => {
+            if (err) return reject(err);
             resolve({
                 teacher: {
                     id: user[0].id,
@@ -137,15 +139,24 @@ function syncAssociatedCourses(courseObjects) {
 }
 
 module.exports = () => {
-    return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(csv.slice(0, 5), 20, (teacher, mapCB) => {
+    var num = csv.slice(0, 50);
 
-            getTeacherObject(teacher)
-                .then(makeCourse)
+    return new Promise((resolve, reject) => {
+        asyncLib.mapLimit(num, 15, (teacher, mapCB) => {
+            var courseData = {
+                teacher: {
+                    'name': teacher.long_name.split('  Sandbox')[0],
+                    id: 'toBeSet'
+                }
+            };
+
+            // getTeacherObject(teacher)
+            makeCourse(courseData)
                 .then(makeBluePrintChild)
                 .then(enrollStudents)
                 .then(courseData => {
                     courseData.status = 'success';
+                    count++;
                     mapCB(null, courseData);
                 })
                 .catch((err) => {
@@ -162,7 +173,7 @@ module.exports = () => {
                 console.log(eachErr);
                 return;
             }
-
+            console.log('FRICCCK');
             syncAssociatedCourses(courseObjects)
                 .then((courseDataObjects) => {
                     var goodCourses = courseDataObjects.filter(item => item.status === 'success');

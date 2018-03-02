@@ -1,8 +1,11 @@
 const asyncLib = require('async');
 const canvas = require('canvas-wrapper');
-var drifter = require('./drifter.js');
+const Drifter = require('./drifter.js');
+var count = 0;
 
 module.exports = (courseData, callback) => {
+    count++;
+    var drifter = new Drifter(count);
 
     function setItems(object, cb) {
 
