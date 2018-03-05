@@ -2,7 +2,7 @@ const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
 const canvas = require('canvas-wrapper');
-const masterCourse = 4870;
+const masterCourse = 4274;
 const Drifter = require('./drifter.js');
 var drifter = new Drifter();
 const chalk = require('chalk');
@@ -139,7 +139,7 @@ function syncAssociatedCourses(courseObjects) {
 }
 
 module.exports = () => {
-    var num = csv.slice(0, 50);
+    var num = csv; //.slice(0, 1);
 
     return new Promise((resolve, reject) => {
         asyncLib.mapLimit(num, 15, (teacher, mapCB) => {
@@ -173,7 +173,7 @@ module.exports = () => {
                 console.log(eachErr);
                 return;
             }
-            console.log('FRICCCK');
+            console.log('Beginning Sync Process...');
             syncAssociatedCourses(courseObjects)
                 .then((courseDataObjects) => {
                     var goodCourses = courseDataObjects.filter(item => item.status === 'success');

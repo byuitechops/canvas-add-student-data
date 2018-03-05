@@ -302,9 +302,7 @@ module.exports = () => {
 
         var dataObjects = JSON.parse(data);
 
-        asyncLib.eachLimit(dataObjects, 10, (courseData, eachCallback) => {
-
-
+        asyncLib.eachLimit(dataObjects.slice(11, 830), 10, (courseData, eachCallback) => {
 
             var functionCalls = [
                 asyncLib.constant(courseData),
@@ -324,13 +322,13 @@ module.exports = () => {
                     console.log(waterErr);
                     issues.push({
                         course: courseData.course.id,
-                        teacher: courseData.teacher.name,
+                        teacher: courseData.course.name,
                         error: waterErr
                     });
                     eachCallback(null);
                     return;
                 }
-                chalkAnimation.rainbow(`Completed waterfall for course: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
+                chalkAnimation.rainbow(`Completed waterfall for course: ${courseData.course.name} Sandbox | ${courseData.course.id}`);
                 eachCallback(null);
             });
 
