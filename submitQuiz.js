@@ -1,5 +1,5 @@
 const canvas = require('canvas-wrapper');
-canvas.changeUser(process.env.TOKEN);
+//canvas.changeUser(process.env.TOKEN);
 
 function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
 
@@ -15,7 +15,7 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
                 cb(err);
                 return;
             }
-            console.log('closed quiz');
+            console.log('Submitted Quiz\n');
             cb(null, quizSubmission);
         });
 
@@ -59,7 +59,7 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
             questionsObj.quiz_questions = questions[0].quiz_submission_questions.map((question, index) => {
                 return {
                     "id": question.id,
-                    "answer": question.answers[answersArr[index]].id
+                    "answer": answersArr[index]
                 };
             });
             // questionsObj.quiz_questions = [];
@@ -97,7 +97,8 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
             var filteredQuizzes = quizSubmissions[0].quiz_submissions.filter((quizSubmission) => {
                 return quizSubmission.finished_at === null;
             });
-            console.log(JSON.stringify(filteredQuizzes, null, 3));
+            if (!filteredQuizzes.length)
+                console.log('There are no quizzes to submit.');
             filteredQuizzes.forEach(quizSubmission => {
                 submitQuiz({
                     'id': quizSubmission.id,
@@ -117,12 +118,10 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
 
 module.exports = makeQuizzes;
 
-
-//These variables are hardcoded, they need to be more dynamic
 var studentId = 34728,
-    quizId = 56768,
+    quizId = 56769,
     courseId = 80,
-    answersArr = [],
+    answersArr = ['This is the first answer\'s response', 'This is the second answer\'s response'],
     callback = console.log;
 
 makeQuizzes(studentId, quizId, courseId, answersArr, callback);
