@@ -4,14 +4,13 @@ canvas.changeUser(process.env.TOKEN);
 function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
 
     function submitQuiz(quizSubmission) {
-
         var completeObj = {
             'attempt': quizSubmission.attempt,
             'validation_token': quizSubmission.validation_token
         };
 
         /* Tell Canvas to complete the quiz */
-        canvas.postJSON(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
+        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
             if (err) {
                 cb(err);
                 return;
@@ -30,9 +29,9 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
                 callback(quizSubmission);
                 return;
             }
-            
+
             callback(quizSubmission);
-        
+
         });
     }
 
@@ -64,7 +63,7 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
                 };
             });
             // questionsObj.quiz_questions = [];
-            console.log(questionsObj);
+            console.log(questionsObj.quiz_questions);
             // console.log(JSON.stringify(questions, null, '\t'));
 
             /* Set the answers in Canvas, so it'll take these answers when the quiz is submitted */
@@ -89,25 +88,41 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
         });
     }
 
-    var start = true;
-    if (start) {
-        createQuizSubmission();
-    } else {
-        submitQuiz({
-            'id': 22595,
-            'attempt': 1,
-            'validation_token': ''
+    function submitUnfinishedQuizzes(studentId, quizId, courseId, cb) {
+        canvas.get(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions?as_user_id=${studentId}`, (err, quizSubmissions) => {
+            if (err) {
+                cb(err);
+                return;
+            }
+            var filteredQuizzes = quizSubmissions[0].quiz_submissions.filter((quizSubmission) => {
+                return quizSubmission.finished_at === null;
+            });
+            console.log(JSON.stringify(filteredQuizzes, null, 3));
+            filteredQuizzes.forEach(quizSubmission => {
+                submitQuiz({
+                    'id': quizSubmission.id,
+                    'attempt': quizSubmission.attempt,
+                    'validation_token': quizSubmission.validation_token
+                });
+            });
         });
     }
-
+    if (process.argv[2] === 'submit')
+        submitUnfinishedQuizzes(studentId, quizId, courseId, callback);
+    else if (process.argv[2] === 'create')
+        createQuizSubmission();
+    else
+        console.log('Please specify whether you are creating or submitting quizzes by typing either \'submit\' or \'create\' as an argument.');
 }
 
 module.exports = makeQuizzes;
 
-var studentId = 111,
-    quizId = 111,
-    courseId = 111,
+
+//These variables are hardcoded, they need to be more dynamic
+var studentId = 34728,
+    quizId = 56768,
+    courseId = 80,
     answersArr = [],
-    callback = console.log
+    callback = console.log;
 
 makeQuizzes(studentId, quizId, courseId, answersArr, callback);
