@@ -1,7 +1,7 @@
 const canvas = require('canvas-wrapper');
-const myAuth = require('./auth.json');
+canvas.changeUser(process.env.TOKEN);
 
-module.exports = (studentId, quizId, courseId, answersArr, cb) => {
+function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
 
     function submitQuiz(quizSubmission) {
 
@@ -11,15 +11,29 @@ module.exports = (studentId, quizId, courseId, answersArr, cb) => {
         };
 
         /* Tell Canvas to complete the quiz */
-        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
+        canvas.postJSON(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
             if (err) {
                 cb(err);
                 return;
             }
-
+            console.log('closed quiz');
             cb(null, quizSubmission);
         });
 
+    }
+
+    function sendAnswers(quizSubmission, questionsObj, callback) {
+        canvas.postJSON(`/api/v1/quiz_submissions/${quizSubmission.id}/questions?as_user_id=${studentId}`, questionsObj, (postErr, newQuestions) => {
+            console.log('RESULT', newQuestions);
+            if (postErr) {
+                console.log(postErr);
+                callback(quizSubmission);
+                return;
+            }
+            
+            callback(quizSubmission);
+        
+        });
     }
 
     function answerQuestions(quizSubmission) {
@@ -36,6 +50,7 @@ module.exports = (studentId, quizId, courseId, answersArr, cb) => {
         canvas.get(`/api/v1/quiz_submissions/${quizSubmission.id}/questions?as_user_id=${studentId}&include[]=quiz_question`, (getErr, questions) => {
             if (getErr) {
                 console.log(getErr);
+                submitQuiz(quizSubmission);
                 return;
             }
 
@@ -48,24 +63,19 @@ module.exports = (studentId, quizId, courseId, answersArr, cb) => {
                     "answer": question.answers[answersArr[index]].id
                 };
             });
-            questionsObj.quiz_questions = [];
+            // questionsObj.quiz_questions = [];
             console.log(questionsObj);
             // console.log(JSON.stringify(questions, null, '\t'));
 
             /* Set the answers in Canvas, so it'll take these answers when the quiz is submitted */
-            canvas.post(`/api/v1/quiz_submissions/${quizSubmission.id}/questions?as_user_id=${studentId}`, questionsObj, (postErr, newQuestions) => {
-                console.log('RESULT', newQuestions);
-
-                if (postErr) {
-                    console.log(postErr);
-                    return;
-                }
-
+            sendAnswers(quizSubmission, questionsObj, (quizSubmission) => {
                 submitQuiz(quizSubmission);
             });
 
         });
     }
+
+
 
     function createQuizSubmission() {
         /* POST to canvas to create the quiz submission */
@@ -79,7 +89,25 @@ module.exports = (studentId, quizId, courseId, answersArr, cb) => {
         });
     }
 
+    var start = true;
+    if (start) {
+        createQuizSubmission();
+    } else {
+        submitQuiz({
+            'id': 22595,
+            'attempt': 1,
+            'validation_token': ''
+        });
+    }
 
-    createQuizSubmission();
+}
 
-};
+module.exports = makeQuizzes;
+
+var studentId = 111,
+    quizId = 111,
+    courseId = 111,
+    answersArr = [],
+    callback = console.log
+
+makeQuizzes(studentId, quizId, courseId, answersArr, callback);
