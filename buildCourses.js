@@ -2,32 +2,11 @@ const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
 const canvas = require('canvas-wrapper');
-const masterCourse = 4274;
+const masterCourse = 4870;
 const Drifter = require('./drifter.js');
 var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
-
-// Get names from cSV
-var enrollFile = fs.readFileSync('teacherList.csv', 'utf8');
-var csv = d3.csvParse(enrollFile);
-var failedCourses = [];
-var count = 0;
-
-// Get user ID
-function getTeacherObject(teacher) {
-    return new Promise((resolve, reject) => {
-        canvas.get(`/api/v1/accounts/1/users?search_term=${teacher.long_name.split('  Sandbox')[0]}`, (err, user) => {
-            if (err) return reject(err);
-            resolve({
-                teacher: {
-                    id: user[0].id,
-                    name: user[0].name
-                }
-            });
-        });
-    });
-}
 
 // Create course
 function makeCourse(courseData) {
@@ -38,7 +17,7 @@ function makeCourse(courseData) {
             },
             'offer': true
         };
-        canvas.post(`/api/v1/accounts/8/courses`, putObj, (err, newCourse) => {
+        canvas.post(`/api/v1/accounts/13/courses`, putObj, (err, newCourse) => {
             if (err) reject(err);
             courseData.course = {
                 id: newCourse.id
@@ -138,19 +117,25 @@ function syncAssociatedCourses(courseObjects) {
     });
 }
 
+// Get names from cSV
+var enrollFile = fs.readFileSync('GOODLIST.json', 'utf8');
+// var csv = d3.csvParse(enrollFile);
+var instructors = JSON.parse(enrollFile);
+var failedCourses = [];
+var count = 0;
+
 module.exports = () => {
-    var num = csv; //.slice(0, 1);
+    var num = instructors.slice(0, 1);
 
     return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(num, 15, (teacher, mapCB) => {
+        asyncLib.mapLimit(num, 35, (teacher, mapCB) => {
             var courseData = {
                 teacher: {
-                    'name': teacher.long_name.split('  Sandbox')[0],
-                    id: 'toBeSet'
+                    name: teacher.name,
+                    id: teacher.id
                 }
             };
 
-            // getTeacherObject(teacher)
             makeCourse(courseData)
                 .then(makeBluePrintChild)
                 .then(enrollStudents)
@@ -174,6 +159,7 @@ module.exports = () => {
                 return;
             }
             console.log('Beginning Sync Process...');
+            // Filter out bad courses BEFORE sync AND write JSON files before sync
             syncAssociatedCourses(courseObjects)
                 .then((courseDataObjects) => {
                     var goodCourses = courseDataObjects.filter(item => item.status === 'success');

@@ -98,7 +98,7 @@ module.exports = class Drifter {
                     O Attic shape! Fair attitude! with brede of marble men and maidens overwrought, with forest branches and the trodden weed; Thou, silent form, dost tease us out of thought as doth eternity: Cold Pastoral! When old age shall this generation waste, thou shalt remain, in midst of other woe Than ours, a friend to man, to whom thou say'st, "Beauty is truth, truth beauty, —that is all. Ye know on earth, and all ye need to know.”
                     Compassionately,
                             David Tryle`
-                }
+                },
                 quizSubmissions: {
                     quiz1: {
                         quizId: this.quizzes.multipleChoice.id,
@@ -127,7 +127,7 @@ module.exports = class Drifter {
                     It’s been a while. I know you haven’t heard from me since I left you for the MP3 player. Just so you know, that phase didn’t last long. Now I just catch glimpses of you in diners and old junkyards. I bet you feel abandoned. But I just want you to know that I still think you are cool.
                     Your old friend,
                     Eugene Tryle.`
-                }
+                },
                 quizSubmissions: {
                     quiz1: {
                         quizId: this.quizzes.multipleChoice.id,
@@ -162,7 +162,7 @@ module.exports = class Drifter {
                     
                     Guy Tryle
                     P.S Try to look your best.`
-                }
+                },
                 quizSubmissions: {
                     quiz1: {
                         quizId: this.quizzes.multipleChoice.id,
@@ -203,7 +203,7 @@ module.exports = class Drifter {
                      
                     P.s I’m sorry for the times I dropped you, it was an accident. 
                     Hope`
-                }
+                },
                 quizSubmissions: {
                     quiz1: {
                         quizId: this.quizzes.multipleChoice.id,
@@ -232,7 +232,7 @@ module.exports = class Drifter {
                     Oh my gosh, you would not believe the pair of heels I saw in the window at the mall at Macy’s. They were so cute and, like, fifty percent off. They were just the perfect shade of nude and had an adorable wedge heel in it. I was so excited and then I remembered you. You are my favorite pair, remember when we went to that party and you gave me confidence a lift and I flirted with my crush and I came home with his number. We made a good team that night. You did so well, I carried you home. And then when we had our first date with him and you made me trip as I walked beside him and he caught me, that was smooth. You are the best wing woman. But it’s time for us to break apart. I have been married to him for three years and you have carried me through two pregnancies. I felt bad as you stretched and were smashed little by little. It’s time that you go where all good shoes go. But I will always remember you fondly and I want you to know that it’s because of you that I have my family. Thank you, black pair of pumps. You will be missed.
                     Affectionately,
                     Ima`
-                }
+                },
                 quizSubmissions: {
                     quiz1: {
                         quizId: this.quizzes.multipleChoice.id,
@@ -249,7 +249,7 @@ module.exports = class Drifter {
             name: "string",
             worked: true,
             message: "string"
-        }, ];
+        }];
         this.quizzes = { // This and below needs to be dynamically discovered based on name or URL
             multipleChoice: {
                 id: "string",
@@ -258,7 +258,7 @@ module.exports = class Drifter {
             essayQuestions: {
                 id: "string",
                 search: "L12: Quiz 2"
-            },
+            }
         };
         this.discussions = {
             topic: {
@@ -303,7 +303,7 @@ module.exports = class Drifter {
                     'name': 'Group Assignments',
                 },
                 groups: [{
-                    id: "Batman",
+                    id: "string",
                     name: "Group 1",
                     link: 'https://www.lds.org/media-library/video/mormon-and-gay?lang=eng',
                     groupLeader: 34730,
@@ -314,7 +314,7 @@ module.exports = class Drifter {
                         34766,
                     ]
                 }, {
-                    id: "Superman",
+                    id: "string",
                     name: "Group 2",
                     link: 'https://www.lds.org/media-library/video/2015-08-011-step-11-personal-revelation-lindsays-story-about-heroin-addiction-recovery?category=12-steps-to-change&lang=eng',
                     groupLeader: 34731,
