@@ -3,35 +3,15 @@ const canvas = require('canvas-wrapper');
 
 function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
 
-    function submitQuiz(quizSubmission) {
-        var completeObj = {
-            'attempt': quizSubmission.attempt,
-            'validation_token': quizSubmission.validation_token
-        };
-
-        /* Tell Canvas to complete the quiz */
-        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
+    function createQuizSubmission() {
+        /* POST to canvas to create the quiz submission */
+        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions?as_user_id=${studentId}`, {}, (err, quizSubmission) => {
             if (err) {
                 cb(err);
                 return;
             }
-            console.log('Submitted Quiz\n');
-            cb(null, quizSubmission);
-        });
-
-    }
-
-    function sendAnswers(quizSubmission, questionsObj, callback) {
-        canvas.postJSON(`/api/v1/quiz_submissions/${quizSubmission.id}/questions?as_user_id=${studentId}`, questionsObj, (postErr, newQuestions) => {
-            console.log('RESULT', newQuestions);
-            if (postErr) {
-                console.log(postErr);
-                callback(quizSubmission);
-                return;
-            }
-
-            callback(quizSubmission);
-
+            console.log(quizSubmission);
+            answerQuestions(quizSubmission.quiz_submissions[0]);
         });
     }
 
@@ -59,7 +39,7 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
             questionsObj.quiz_questions = questions[0].quiz_submission_questions.map((question, index) => {
                 return {
                     "id": question.id,
-                    "answer": answersArr[index]
+                    "answer": answersArr[index] || question.answers[Math.floor(Math.random * question.answers.length)].id
                 };
             });
             // questionsObj.quiz_questions = [];
@@ -74,54 +54,61 @@ function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {
         });
     }
 
+    function sendAnswers(quizSubmission, questionsObj, callback) {
+        canvas.postJSON(`/api/v1/quiz_submissions/${quizSubmission.id}/questions?as_user_id=${studentId}`, questionsObj, (postErr, newQuestions) => {
+            console.log('RESULT', newQuestions);
+            if (postErr) {
+                console.log(postErr);
+                callback(quizSubmission);
+                return;
+            }
 
+            callback(quizSubmission);
 
-    function createQuizSubmission() {
-        /* POST to canvas to create the quiz submission */
-        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions?as_user_id=${studentId}`, {}, (err, quizSubmission) => {
+        });
+    }
+
+    function submitQuiz(quizSubmission) {
+        var completeObj = {
+            'attempt': quizSubmission.attempt,
+            'validation_token': quizSubmission.validation_token
+        };
+
+        /* Tell Canvas to complete the quiz */
+        canvas.post(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions/${quizSubmission.id}/complete?as_user_id=${studentId}`, completeObj, (err, quizSubmission) => {
             if (err) {
                 cb(err);
                 return;
             }
-            console.log(quizSubmission);
-            answerQuestions(quizSubmission.quiz_submissions[0]);
+            console.log('Submitted Quiz\n');
+            cb(null, quizSubmission);
         });
+
     }
 
-    function submitUnfinishedQuizzes(studentId, quizId, courseId, cb) {
-        canvas.get(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions?as_user_id=${studentId}`, (err, quizSubmissions) => {
-            if (err) {
-                cb(err);
-                return;
-            }
-            var filteredQuizzes = quizSubmissions[0].quiz_submissions.filter((quizSubmission) => {
-                return quizSubmission.finished_at === null;
-            });
-            if (!filteredQuizzes.length)
-                console.log('There are no quizzes to submit.');
-            filteredQuizzes.forEach(quizSubmission => {
-                submitQuiz({
-                    'id': quizSubmission.id,
-                    'attempt': quizSubmission.attempt,
-                    'validation_token': quizSubmission.validation_token
-                });
-            });
-        });
-    }
-    if (process.argv[2] === 'submit')
-        submitUnfinishedQuizzes(studentId, quizId, courseId, callback);
-    else if (process.argv[2] === 'create')
-        createQuizSubmission();
-    else
-        console.log('Please specify whether you are creating or submitting quizzes by typing either \'submit\' or \'create\' as an argument.');
+
+    // function submitUnfinishedQuizzes(studentId, quizId, courseId, cb) {
+    //     canvas.get(`/api/v1/courses/${courseId}/quizzes/${quizId}/submissions?as_user_id=${studentId}`, (err, quizSubmissions) => {
+    //         if (err) {
+    //             cb(err);
+    //             return;
+    //         }
+    //         var filteredQuizzes = quizSubmissions[0].quiz_submissions.filter((quizSubmission) => {
+    //             return quizSubmission.finished_at === null;
+    //         });
+    //         if (!filteredQuizzes.length)
+    //             console.log('There are no quizzes to submit.');
+    //         filteredQuizzes.forEach(quizSubmission => {
+    //             submitQuiz({
+    //                 'id': quizSubmission.id,
+    //                 'attempt': quizSubmission.attempt,
+    //                 'validation_token': quizSubmission.validation_token
+    //             });
+    //         });
+    //     });
+    // }
+
+    createQuizSubmission();
 }
 
 module.exports = makeQuizzes;
-
-var studentId = 34728,
-    quizId = 56769,
-    courseId = 80,
-    answersArr = ['This is the first answer\'s response', 'This is the second answer\'s response'],
-    callback = console.log;
-
-makeQuizzes(studentId, quizId, courseId, answersArr, callback);

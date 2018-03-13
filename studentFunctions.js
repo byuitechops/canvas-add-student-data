@@ -1,6 +1,7 @@
 const asyncLib = require('async');
 const canvasAPICalls = require('./canvasAPICalls.js');
 const populateDrifter = require('./populateDrifter.js');
+const submitQuiz = require('./submitQuiz.js');
 const fs = require('fs');
 const issues = [];
 const chalkAnimation = require('chalk-animation');
@@ -169,6 +170,36 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
     });
 }
 
+function makeQuizSubmissions(drifter, waterCallback) {
+    function submitStudentQuiz(student, eachCallback) {
+        if (!student.quizSubmissions) {
+            eachCallback(null);
+            return;
+        }
+        submitQuiz(student.id, student.quizSubmissions.quiz1.id, drifter.course.id, student.quizSubmissions.quiz1.answers, (err) => {
+            if (err) {
+                eachCallback(err);
+                return;
+            }
+            submitQuiz(student.id, student.quizSubmissions.quiz2.id, drifter.course.id, student.quizSubmissions.quiz2.answers, (err) => {
+                if (err) {
+                    eachCallback(err);
+                    return;
+                }
+                eachCallback(null);
+            });
+        });
+    }
+
+    asyncLib.eachSeries(drifter.students, submitStudentQuiz, (err) => {
+        if (err) {
+            waterCallback(err);
+            return;
+        }
+        waterCallback(null, drifter);
+    });
+}
+
 function makeGroupCategories(drifter, waterCallback) {
     function makeGroupCategory(groupCatObj, eachCallback) {
         canvasAPICalls.makeGroupCategory(drifter.course.id, groupCatObj.settings, (cbErr, newCategory) => {
@@ -309,6 +340,7 @@ module.exports = () => {
                 populateDrifter,
                 makeDiscussionPosts,
                 makeDiscussionPostReplies,
+                makeQuizSubmissions,
                 makeGroupCategories,
                 makeGroups,
                 putStudentsInGroups,

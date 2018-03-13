@@ -25,6 +25,16 @@ module.exports = class Drifter {
                    Princess Aurora Briar-Rose 
                    
                    Just kidding, it’s Alice`
+                },
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
                 }
             },
             bob: {
@@ -47,6 +57,16 @@ module.exports = class Drifter {
                     You have gone through quite a bit. I know that I’m not the first college student to live in this dorm apartment but we have seen quite a bit together. When I saw snow for the first time and like an idiot, I played outside barefoot, I had the painful experience of thawing my feet out next to your open oven door as I drank hot chocolate and tried to keep the head cold at bay. And then the next day when we both realized that stomach flu was more the order of the day. You were there when we cornered our roommate and made her text the boy that she had just gone on a date with to ask if they were official. We sat at your table and screamed when he said yes. For your information, they are married now. You saw when that same roommate put a cup of noodles in your microwave without water, and the microwave exploded with massive flames as she did her math homework. Black smoke poured all throughout you and it took several weeks before all the soot was officially removed from your cupboard doors. I’m sorry about that one. She can work a microwave now. I remember when my friend broke up with her boyfriend and we sat looking out of your massive window as the sun set and we tried to put her back together. We had good times together and I just want to thank you. They tore down the apartments, and now you are just a parking spot that I use when I’m late to class. But I will always remember the smoke, the sunsets, the screaming, all of it. I know it’s too late, but I wanted to tell you how much we all loved you.
                     Regretfully, 
                     Charli Tryle`
+                },
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
                 }
             },
             david: {
@@ -79,6 +99,16 @@ module.exports = class Drifter {
                     Compassionately,
                             David Tryle`
                 }
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
+                }
             },
             eugene: {
                 id: "34766",
@@ -97,6 +127,16 @@ module.exports = class Drifter {
                     It’s been a while. I know you haven’t heard from me since I left you for the MP3 player. Just so you know, that phase didn’t last long. Now I just catch glimpses of you in diners and old junkyards. I bet you feel abandoned. But I just want you to know that I still think you are cool.
                     Your old friend,
                     Eugene Tryle.`
+                }
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
                 }
             },
             faith: {
@@ -122,6 +162,16 @@ module.exports = class Drifter {
                     
                     Guy Tryle
                     P.S Try to look your best.`
+                }
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
                 }
             },
             hope: {
@@ -154,6 +204,16 @@ module.exports = class Drifter {
                     P.s I’m sorry for the times I dropped you, it was an accident. 
                     Hope`
                 }
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
+                }
             },
             ima: {
                 id: "34770",
@@ -172,6 +232,16 @@ module.exports = class Drifter {
                     Oh my gosh, you would not believe the pair of heels I saw in the window at the mall at Macy’s. They were so cute and, like, fifty percent off. They were just the perfect shade of nude and had an adorable wedge heel in it. I was so excited and then I remembered you. You are my favorite pair, remember when we went to that party and you gave me confidence a lift and I flirted with my crush and I came home with his number. We made a good team that night. You did so well, I carried you home. And then when we had our first date with him and you made me trip as I walked beside him and he caught me, that was smooth. You are the best wing woman. But it’s time for us to break apart. I have been married to him for three years and you have carried me through two pregnancies. I felt bad as you stretched and were smashed little by little. It’s time that you go where all good shoes go. But I will always remember you fondly and I want you to know that it’s because of you that I have my family. Thank you, black pair of pumps. You will be missed.
                     Affectionately,
                     Ima`
+                }
+                quizSubmissions: {
+                    quiz1: {
+                        quizId: this.quizzes.multipleChoice.id,
+                        answers: []
+                    },
+                    quiz2: {
+                        quizId: this.quizzes.essayQuestions.id,
+                        answers: ['Response 1', 'Response 2']
+                    }
                 }
             }
         };
@@ -259,4 +329,4 @@ module.exports = class Drifter {
             }
         };
     }
-}
+};
