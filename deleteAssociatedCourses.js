@@ -1,5 +1,5 @@
 const canvas = require('canvas-wrapper');
-const masterCourse = 4274;
+const masterCourse = 4870;
 
 canvas.get(`/api/v1/courses/${masterCourse}/blueprint_templates/default/associated_courses`, (err, courses) => {
     courses.forEach(course => {

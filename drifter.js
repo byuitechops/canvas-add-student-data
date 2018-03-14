@@ -28,11 +28,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -60,11 +60,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -101,11 +101,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -130,11 +130,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -165,11 +165,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -206,11 +206,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -235,11 +235,11 @@ module.exports = class Drifter {
                 },
                 quizSubmissions: {
                     quiz1: {
-                        quizId: this.quizzes.multipleChoice.id,
+                        quizId: () => this.getQuiz('multipleChoice'),
                         answers: []
                     },
                     quiz2: {
-                        quizId: this.quizzes.essayQuestions.id,
+                        quizId: () => this.getQuiz('essayQuestions'),
                         answers: ['Response 1', 'Response 2']
                     }
                 }
@@ -328,5 +328,9 @@ module.exports = class Drifter {
                 }],
             }
         };
+    }
+
+    getQuiz(key) {
+        return this.quizzes ? this.quizzes[key].id : '';
     }
 };
