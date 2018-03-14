@@ -36,7 +36,7 @@ function makeDiscussionPosts(drifter, waterCallback) {
         student: drifter.students.david,
         boardId: drifter.discussions.topic.id,
         message: drifter.students.david.posts[0]
-    }, ];
+    },];
 
     function makeDiscussionPost(postObj, eachCallback) {
         canvasAPICalls.submitDiscussionPost(postObj.student.id, postObj.boardId, drifter.course.id, postObj.message, (discErr, entryId) => {
@@ -147,7 +147,7 @@ function makeDiscussionPostReplies(drifter, waterCallback) {
         student: drifter.students.charli,
         boardId: drifter.discussions.topic.id,
         message: drifter.students.charli.replies[1]
-    }, ];
+    },];
 
     function makeDiscussionPost(postObj, eachCallback) {
         canvasAPICalls.submitDiscussionPostReply(postObj.student.id, postObj.boardId, postObj.entryId, drifter.course.id, postObj.message, (discErr, replyId) => {
@@ -176,16 +176,18 @@ function makeQuizSubmissions(drifter, waterCallback) {
             eachCallback(null);
             return;
         }
-        submitQuiz(student.id, student.quizSubmissions.quiz1.id, drifter.course.id, student.quizSubmissions.quiz1.answers, (err) => {
+        submitQuiz(student.id, student.quizSubmissions.quiz1.quizId(), drifter.course.id, student.quizSubmissions.quiz1.answers, (err) => {
             if (err) {
                 eachCallback(err);
                 return;
             }
-            submitQuiz(student.id, student.quizSubmissions.quiz2.id, drifter.course.id, student.quizSubmissions.quiz2.answers, (err) => {
+            console.log(`${drifter.courseNumber} | ${drifter.course.id} | Quiz ${student.quizSubmissions.quiz1.quizId()} submitted for student ${student.id}`);
+            submitQuiz(student.id, student.quizSubmissions.quiz2.quizId(), drifter.course.id, student.quizSubmissions.quiz2.answers, (err) => {
                 if (err) {
                     eachCallback(err);
                     return;
                 }
+                console.log(`${drifter.courseNumber} | ${drifter.course.id} | Quiz ${student.quizSubmissions.quiz2.quizId()} submitted for student ${student.id}`);
                 eachCallback(null);
             });
         });
@@ -333,7 +335,7 @@ module.exports = () => {
 
         var dataObjects = JSON.parse(data);
 
-        asyncLib.eachLimit(dataObjects.slice(11, 830), 10, (courseData, eachCallback) => {
+        asyncLib.eachLimit(dataObjects.slice(0, 1), 10, (courseData, eachCallback) => {
 
             var functionCalls = [
                 asyncLib.constant(courseData),
