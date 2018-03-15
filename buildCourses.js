@@ -2,12 +2,15 @@ const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
 const canvas = require('canvas-wrapper');
-const masterCourse = 4870;
+var moment = require('moment');
+const masterCourse = 4272;
 const Drifter = require('./drifter.js');
 var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
-
+const subAccountNumber = 8;
+//for a diff in time
+require('moment-precise-range-plugin');
 // Create course
 function makeCourse(courseData) {
     return new Promise((resolve, reject) => {
@@ -17,8 +20,13 @@ function makeCourse(courseData) {
             },
             'offer': true
         };
-        canvas.post(`/api/v1/accounts/13/courses`, putObj, (err, newCourse) => {
-            if (err) reject(err);
+        canvas.post(`/api/v1/accounts/${subAccountNumber}/courses`, putObj, (err, newCourse) => {
+            if (err) {
+                failedCourses.push(courseData);
+                reject(err);
+                return;
+            }
+
             courseData.course = {
                 id: newCourse.id
             };
@@ -50,7 +58,7 @@ function makeBluePrintChild(courseData) {
 function enrollStudents(courseData) {
     return new Promise((resolve, reject) => {
 
-        asyncLib.each(drifter.students, (student, callback) => {
+        asyncLib.eachSeries(drifter.students, (student, callback) => {
 
             var enrollmentObj = {
                 enrollment: {
@@ -83,11 +91,11 @@ function checkMigration(migration) {
         function check() {
             canvas.get(`/api/v1/courses/${masterCourse}/blueprint_templates/default/migrations/${migration.id}`, (err, migrationDets) => {
                 if (err) return reject(err);
-                chalkAnimation.rainbow(`Sync state: ${migrationDets[0].workflow_state}`);
+                console.log(`Sync state: ${migrationDets[0].workflow_state}`);
                 if (migrationDets[0].workflow_state != 'completed') {
                     setTimeout(() => {
                         check();
-                    }, 2000);
+                    }, 1000 * 30);
                 } else {
                     resolve();
                 }
@@ -104,12 +112,18 @@ function syncAssociatedCourses(courseObjects) {
             var postObj = {
                 'comment': 'Initial sandbox course creation content sync.'
             };
+            var started = moment();
+            console.log('Sync started at', started.format('h:mm:ss a'));
 
             canvas.post(`/api/v1/courses/${masterCourse}/blueprint_templates/default/migrations`, postObj, (err, migration) => {
                 if (err) return reject(err);
                 checkMigration(migration)
                     .then(() => {
+                        var ended = moment();
+                        console.log("Ended Sync at:", ended.format('h:mm:ss a'));
+                        console.log("It took:", moment.preciseDiff(started, ended));
                         resolve(courseObjects);
+
                     })
                     .catch(reject);
             });
@@ -125,10 +139,10 @@ var failedCourses = [];
 var count = 0;
 
 module.exports = () => {
-    var num = instructors.slice(0, 1);
+    var num = instructors.slice(50);
 
     return new Promise((resolve, reject) => {
-        asyncLib.mapLimit(num, 35, (teacher, mapCB) => {
+        asyncLib.mapSeries(num, (teacher, mapCB) => {
             var courseData = {
                 teacher: {
                     name: teacher.name,
@@ -158,17 +172,20 @@ module.exports = () => {
                 console.log(eachErr);
                 return;
             }
+            //write out the data
+            var goodCourses = courseObjects.filter(item => item.status === 'success');
+            var badCourses = courseObjects.filter(item => item.status != 'success');
+            console.log(chalk.greenBright('GOOD COURSES: ') + goodCourses.length);
+            console.log(chalk.redBright('BAD COURSES: ') + badCourses.length);
+            fs.writeFileSync('./createdCourses.json', JSON.stringify(goodCourses, null, '\t'));
+            fs.writeFileSync('./failedCourses.json', JSON.stringify(badCourses, null, '\t'));
+            console.log(chalk.yellow('Data written to JSON Files'));
+
             console.log('Beginning Sync Process...');
             // Filter out bad courses BEFORE sync AND write JSON files before sync
             syncAssociatedCourses(courseObjects)
-                .then((courseDataObjects) => {
-                    var goodCourses = courseDataObjects.filter(item => item.status === 'success');
-                    var badCourses = courseDataObjects.filter(item => item.status != 'success');
-                    console.log(chalk.greenBright('GOOD COURSES: ') + goodCourses.length);
-                    console.log(chalk.redBright('BAD COURSES: ') + badCourses.length);
-                    fs.writeFileSync('./createdCourses.json', JSON.stringify(goodCourses, null, '\t'));
-                    fs.writeFileSync('./failedCourses.json', JSON.stringify(badCourses, null, '\t'));
-                    console.log(chalk.yellow('Data written to JSON Files'));
+                .then(() => {
+                    console.log('DONE Syncing Courses');
                     resolve();
                 })
                 .catch(reject);
