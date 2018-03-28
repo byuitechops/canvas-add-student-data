@@ -37,9 +37,9 @@ function enrollTeacher(courseData, callback) {
     });
 }
 
-var toEnroll = JSON.parse(fs.readFileSync('createdCourses.JSON', 'utf8'));
+var toEnroll = JSON.parse(fs.readFileSync('createdCourses.json', 'utf8'));
 
-asyncLib.eachLimit(toEnroll.slice(0, 1), 25, enrollTeacher, (err) => {
+asyncLib.eachLimit(toEnroll.slice(0), 25, enrollTeacher, (err) => {
     if (err) {
         console.log(err);
         return;

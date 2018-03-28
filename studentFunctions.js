@@ -3,6 +3,7 @@ const canvasAPICalls = require('./canvasAPICalls.js');
 const populateDrifter = require('./populateDrifter.js');
 const submitQuiz = require('./submitQuiz.js');
 const fs = require('fs');
+const moment = require('moment');
 const issues = [];
 const chalkAnimation = require('chalk-animation');
 
@@ -335,7 +336,7 @@ module.exports = () => {
 
         var dataObjects = JSON.parse(data);
 
-        asyncLib.eachLimit(dataObjects.slice(0, 1), 10, (courseData, eachCallback) => {
+        asyncLib.eachSeries(dataObjects.slice(0), (courseData, eachCallback) => {
 
             var functionCalls = [
                 asyncLib.constant(courseData),
@@ -356,13 +357,13 @@ module.exports = () => {
                     console.log(waterErr);
                     issues.push({
                         course: courseData.course.id,
-                        teacher: courseData.course.name,
+                        teacher: courseData.teacher.name,
                         error: waterErr
                     });
                     eachCallback(null);
                     return;
                 }
-                chalkAnimation.rainbow(`Completed waterfall for course: ${courseData.course.name} Sandbox | ${courseData.course.id}`);
+                chalkAnimation.rainbow(`Completed waterfall for course: ${courseData.teacher.name} Sandbox | ${courseData.course.id}`);
                 eachCallback(null);
             });
 
@@ -373,7 +374,7 @@ module.exports = () => {
                 console.log('\n');
             }, 3000);
             if (issues.length > 0) {
-                fs.appendFileSync('./studentDataIssues.json', JSON.stringify(issues));
+                fs.appendFileSync(`./studentDataIssues${moment().format('d-M--H-m')}.json`, JSON.stringify(issues));
             }
             resolve();
         });
