@@ -5,21 +5,35 @@ const moment = require('moment');
 const d3dsv = require('d3-dsv');
 
 //remove the BOM off the front of the file
-var csv = fs.readFileSync('./oneOnline.csv', 'utf8').replace(/^\uFEFF/, '');
+var csv = fs.readFileSync('./chad.csv', 'utf8').replace(/^\uFEFF/, '');
 
 var badPeople = [];
 
+function getKey(obj, key){
+    if(typeof obj[key] !== 'undefined'){
+        return obj[key].trim();
+    } else {
+        return '';
+    }
+}
 
+function fixInumber(number){
+    if(number === ''){
+        return number;
+    }
+    return number.replace(/-/g, "").padStart(9, '0');
+
+}
 
 var csvData = d3dsv.csvParse(csv, (d, i) => {
     return {
-        lastname: d.lastname.trim(),
-        //middlename: d.middlename.trim(),
-        firstname: d.firstname.trim(),
-        username: d.username.trim(),
-        // Inumber: d.INumber.replace(/-/g, "").padStart(9, '0'),
-        //email: d.email.trim(),
-        canvasUserID: +d.canvasUserID.trim()
+        lastname: getKey(d,"lastname"),
+        middlename: getKey(d,"middlename"),
+        firstname: getKey(d,"firstname"),
+        username: getKey(d,"username"),
+        Inumber: fixInumber(getKey(d,"INumber")),
+        email: getKey(d,"email"),
+        canvasUserID: +getKey(d,"canvasUserID")
     };
 });
 
@@ -74,7 +88,7 @@ function searchCanvas(instructor, callback) {
         }
 
         //get the check function
-        if (instructor.Inumber &&  instructor.Inumber !== '') {
+        if (instructor.Inumber && instructor.Inumber !== '') {
             checkFunction = checkInumber;
         } else if (instructor.canvasUserID !== 0) {
             checkFunction = checkUserId;
@@ -84,7 +98,7 @@ function searchCanvas(instructor, callback) {
 
         // get matching user
         matchingUser = userArr.find(function (canvasUser) {
-            return checkFunction(instructor, canvasUser)
+            return checkFunction(instructor, canvasUser);
         });
 
         //check if we got one
