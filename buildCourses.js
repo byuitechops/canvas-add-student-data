@@ -8,11 +8,13 @@ var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
 
-const subAccountNumber = 8;
-const masterCourse = 4272;
-var enrollFile = fs.readFileSync('./oneOnline.json', 'utf8');
-var syncingCommentForCanvas = 'adding the one leftover professor';
-
+// /********************************************************** these need to be parameters*/
+const subAccountNumber = 8; //sandbox sub account
+const masterCourse = 4272; //Online
+// const masterCourse = 4274; // campus
+var enrollFile = fs.readFileSync('./fixOneOnlineProf.json', 'utf8');
+var syncingCommentForCanvas = 'Adding the new campus instructors from for fall 2018.';
+/******************************************** */
 // Get names from cSV
 // var csv = d3.csvParse(enrollFile);
 var instructors = JSON.parse(enrollFile);
@@ -194,10 +196,13 @@ module.exports = () => {
             //write out the data
             var goodCourses = courseObjects.filter(item => item.status === 'success');
             var badCourses = courseObjects.filter(item => item.status != 'success');
+            var date = moment().format('D-MMM-YY h-m-sa');
             console.log(chalk.greenBright('GOOD COURSES: ') + goodCourses.length);
             console.log(chalk.redBright('BAD COURSES: ') + badCourses.length);
-            fs.writeFileSync(`./createdCourses${moment().format('d-M--H-m')}.json`, JSON.stringify(goodCourses, null, '\t'));
-            fs.writeFileSync(`./failedCourses${moment().format('d-M--H-m')}.json`, JSON.stringify(badCourses, null, '\t'));
+
+
+            fs.writeFileSync(`./createdCourses${date}.json`, JSON.stringify(goodCourses, null, '\t'));
+            fs.writeFileSync(`./failedCourses${date}.json`, JSON.stringify(badCourses, null, '\t'));
             console.log(chalk.yellow('Data written to JSON Files'));
 
             console.log('Beginning Sync Process...');

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const asyncLib = require('async');
 const canvas = require('canvas-wrapper');
+const moment = require('moment');
 
 var goodEnrollments = [];
 var badEnrollments = [];
@@ -37,16 +38,16 @@ function enrollTeacher(courseData, callback) {
     });
 }
 
-var toEnroll = JSON.parse(fs.readFileSync('createdCourses.json', 'utf8'));
+var toEnroll = JSON.parse(fs.readFileSync('./createdCourses4-8--10-46.json', 'utf8'));
 
 asyncLib.eachLimit(toEnroll.slice(0), 25, enrollTeacher, (err) => {
     if (err) {
         console.log(err);
         return;
     }
-
-    if (goodEnrollments.length > 0) fs.writeFileSync('./successfulEnrollments.JSON', JSON.stringify(goodEnrollments, null, '\t'));
-    if (badEnrollments.length > 0) fs.writeFileSync('./badEnrollments.JSON', JSON.stringify(badEnrollments, null, '\t'));
+    var date = moment().format('D-MMM-YY hh-mm-sa');
+    if (goodEnrollments.length > 0) fs.writeFileSync(`./successfulEnrollments_${date}.json`, JSON.stringify(goodEnrollments, null, 4));
+    if (badEnrollments.length > 0) fs.writeFileSync(`./badEnrollments_${date}.json`, JSON.stringify(badEnrollments, null, 4));
 
     console.log('Enrollments complete.');
 });
