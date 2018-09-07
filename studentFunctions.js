@@ -331,8 +331,8 @@ function makeGroupSubmissions(drifter, waterCallback) {
 
 module.exports = () => {
     return new Promise((resolve, reject) => {
-
-        var data = fs.readFileSync('./onlineAfterStopF2018.json');
+        /******************************************* this file has to change or be passed in as an obj */
+        var data = fs.readFileSync('./jilaneStudentCourses.json');
         
         var dataObjects = JSON.parse(data);
 
