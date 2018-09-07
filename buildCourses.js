@@ -7,13 +7,15 @@ const Drifter = require('./drifter.js');
 var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
+//for a diff in time
+require('moment-precise-range-plugin');
 
 // /********************************************************** these need to be parameters*/
 const subAccountNumber = 8; //sandbox sub account
-const masterCourse = 4272; //Online
-// const masterCourse = 4274; // campus
-var enrollFile = fs.readFileSync('./fixOneOnlineProf.json', 'utf8');
-var syncingCommentForCanvas = 'Adding the new campus instructors from for fall 2018.';
+// const masterCourse = 4272; //Online
+const masterCourse = 4274; // campus
+var enrollFile = fs.readFileSync('./jilaneStudents.json', 'utf8');
+var syncingCommentForCanvas = 'making Jilanes students courses';
 /******************************************** */
 // Get names from cSV
 // var csv = d3.csvParse(enrollFile);
@@ -21,8 +23,6 @@ var instructors = JSON.parse(enrollFile);
 var failedCourses = [];
 var count = 0;
 
-//for a diff in time
-require('moment-precise-range-plugin');
 
 // Create course
 function makeCourse(courseData) {
@@ -56,9 +56,18 @@ function makeBluePrintChild(courseData) {
             'course_ids_to_add': courseData.course.id
         };
 
+        var firstTry = true;
+
         function addBluePrintParent(cb) {
             canvas.put(`/api/v1/courses/${masterCourse}/blueprint_templates/default/update_associations`, putObject, (err, data) => {
-                console.log(`${chalk.magenta('Retrying')}: Setting parent blueprint for ${courseData.teacher.name} Sandbox | ${courseData.course.id}.`);
+                if(firstTry){
+                    firstTry = false;
+                    var retryingWords = '';
+                } else {
+                    retryingWords = chalk.magenta('Retrying : ');
+                }
+
+                console.log(`${retryingWords}Setting parent blueprint for ${courseData.teacher.name} Sandbox | ${courseData.course.id}.`);
                 cb(err,data);
             });
         }
