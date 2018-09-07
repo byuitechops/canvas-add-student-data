@@ -37,8 +37,8 @@ function enrollTeacher(courseData, callback) {
         callback(null);
     });
 }
-
-var toEnroll = JSON.parse(fs.readFileSync('./createdCourses4-8--10-46.json', 'utf8'));
+/********************************************* the file name needs to change or just an obj passed in */
+var toEnroll = JSON.parse(fs.readFileSync('./jilaneCourse.json', 'utf8'));
 
 asyncLib.eachLimit(toEnroll.slice(0), 25, enrollTeacher, (err) => {
     if (err) {
