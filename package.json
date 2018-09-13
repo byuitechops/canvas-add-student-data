@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Adds fake student data to a course to simulate an active course. ",
   "main": "canvasAPICalls.js",
+  "bin": "./bin/run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,6 +24,7 @@
     "chalk-animation": "^1.4.0",
     "d3-dsv": "^1.0.8",
     "fs": "0.0.1-security",
+    "inquirer": "^6.2.0",
     "moment": "^2.21.0",
     "moment-precise-range-plugin": "^1.3.0"
   }
