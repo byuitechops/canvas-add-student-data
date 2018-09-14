@@ -25,6 +25,7 @@
     "d3-dsv": "^1.0.8",
     "fs": "0.0.1-security",
     "inquirer": "^6.2.0",
+    "inquirer-checkbox-plus-prompt": "^1.0.1",
     "moment": "^2.21.0",
     "moment-precise-range-plugin": "^1.3.0"
   }

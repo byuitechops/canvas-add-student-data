@@ -2,8 +2,10 @@
  * Requires and Variables
  *************************************************************************/
 const fs = require('fs');
+const path = require('path');
 const inquirer = require('inquirer');
-const targetFile = './questions.json';
+inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
+const targetFile = path.join(__dirname, '/questions.json');
 var questionsFile = fs.readFileSync(targetFile, 'utf8');
 var questionsJSON = JSON.parse(questionsFile);
 
@@ -158,7 +160,7 @@ const editQuestion = async () => {
         message: 'which attributes would you like to change?',
         choices: ['type', 'name', 'message', 'default', 'choices', 'validate', 'filter', 'transformer', 'when', 'pageSize', 'prefix', 'suffix'] 
     }
-    const editAttributes = (iAnswers) => {
+    const editAttributes = async (iAnswers) => {
         questionsTemplate = Object.assign(makeNewQuestionsPrompt);
         iAnswers.attributesToChange.forEach((attribute) => {
             inquirer.prompt(questionsTemplate[attribute])
@@ -167,11 +169,11 @@ const editQuestion = async () => {
             });
         });
     }
-    console.log('You said you would like to edit an existing question');
+    console.log('You said you would like to edit an existing question.');
     console.log('Which question would you like to edit?');
     await inquirer.prompt([editPrompt, selectAttributes])
-        .then(editAttributes)
-        .catch(console.log)
+        .then(await editAttributes)
+        .catch(() => {console.log(test)})
 };
 
 /*************************************************************************
@@ -185,7 +187,6 @@ const updateFile = () => {
  * The progarm will continue running until this function is invoked
  *************************************************************************/
 const exitProgram = () => {
-    updateFile();
     process.exit();
 };
 
@@ -235,8 +236,8 @@ const repeatProgram = async () => {
         message: 'Would you like to run the program again?',
     }
     await inquirer.prompt(repeatProgram).then((answer) => {
+        updateFile(); // Update the file here just in case the user ^C terminates the program after this point
         if (answer.repeat) {
-            updateFile(); // Update the file here just in case the user ^C terminates the program after this point
             main();
         } else {
             exitProgram();
