@@ -5,25 +5,24 @@ console.log('Please wait...');
 const fs = require('fs');
 const path = require('path');
 var runningDir = path.resolve('./');
-var extensions = [];
 
 /*************************************************************************
  * @param {array} extension 
  * Takes an array of extenstions (include the dot).
  * Then filters the files in the running directory by extension
  *************************************************************************/
-var filterByFileType = (extension) => {
+var filterByFileType = (extensions) => {
     var filesInDir = fs.readdirSync(runningDir, 'utf8');
     var filteredFiles = filesInDir.reduce((acc, file) => {
-        if (extension.some((ext) => path.extname(file) === ext)) {
+        if (extensions.some((ext) => path.extname(file) === ext)) {
             acc.push(file);
         }
         return acc;
     }, []);
     filteredFiles.sort((a, b) => {
         // The larger number is later in the future
-        var aTime = fs.Stats(path.join(runningDir, a)).mtimeMs;
-        var bTime = fs.Stats(path.join(runningDir, b)).mtimeMs;
+        var aTime = fs.statSync(path.join(runningDir, a)).mtimeMs;
+        var bTime = fs.statSync(path.join(runningDir, b)).mtimeMs;
         // This will put the larger number at the beginning
         return bTime - aTime;
     });
@@ -47,61 +46,55 @@ var cbpSourceFn = (answersSoFar, input, choices) => {
 };
 
 /*************************************************************************
- * Requires and Variables
+ * @param {Object} answersSoFar comes from inquirer
+ * @param {array} acceptableSteps array of values to compare vs answer from chooseStep question.
  *************************************************************************/
-// TODO finish this function: Find a way to get the answersSoFar into this function. This signature may or may not work
+// when: (answersSoFar) => stepIsChosen(answersSoFar, [steps.step1, steps.step2, steps.step3])
 var stepIsChosen = (answersSoFar, acceptableSteps) => {
-    if (acceptableSteps.some(answersSoFar.chooseStep)) {
-        return true;
-    }
-    return false;
+    return acceptableSteps.some((step) => answersSoFar.chooseStep === step);
 };
 
+/*************************************************************************
+ * Returns true if the value is a number, or can be coerced into a number. 
+ *************************************************************************/
+var isNumber = (valueToCheck) => !isNaN(valueToCheck);
 
 /*************************************************************************
  * prompts object and vars for prompts object
  *************************************************************************/
 var steps = {
-    step1: "Identify Instructors From CSV",
-    step2: "Build Course/Student Functions",
-    step3: "Enroll Teacher"
-};
-
-var number = {
-    [steps.step1]: 1,
-    [steps.step2]: 2,
-    [steps.step3]: 3
+    step1: "1) Identify Instructors From CSV",
+    step2: "2) Build Course/Student Functions",
+    step3: "3) Enroll Teacher"
 };
 
 var prompts = {
     chooseStep: {
-        type: "rawlist",
+        type: "list",
         name: "chooseStep",
         message: "Select which step you'd like to run:",
         choices: [
             steps.step1,
             steps.step2,
             steps.step3
-        ],
-        filter: (answersSoFar) => {
-            return number[answersSoFar.chooseStep];
-        },
+        ]
     },
-    selectFile: {
-        type: "checkbox-plus",
-        name: "selectFile",
-        message: "Select a file:",
-        highlight: true,
-        searchable: true,
-        source: (answersSoFar, input) => cbpSourceFn(answersSoFar, input, filterByFileType(extensions)),
-        when: (answersSoFar) => stepIsChosen(answersSoFar, [1,2,3]) // Find out if this works by testing
+    selectFile: (extensions) => {
+        return {
+            type: "checkbox-plus",
+            name: "selectFile",
+            message: "Select a file:",
+            highlight: true,
+            searchable: true,
+            source: (answersSoFar, input) => cbpSourceFn(answersSoFar, input, filterByFileType(extensions)),
+        };
     },
     setSandboxNumber: {
-        type: "number",
+        type: "input",
         name: "setSandboxNumber",
         message: "Enter the target sandbox's sub-account number (default: 8):",
         default: 8,
-        when: stepIsChosen([2])
+        verify: isNumber
     },
     setMasterCourse: {
         type: "list",
@@ -112,20 +105,19 @@ var prompts = {
             "Campus",
             "Other"
         ],
-        filter: "setMasterCourseNumber",
-        when: stepIsChosen([2])
+        filter: null, // setMasterCourseNumber
+        verify: isNumber
     },
-    theOtherPrompt: {
+    masterCourseOther: {
         type: "input",
         name: "theOtherPrompt",
-        message: "other:",
-        when: stepIsChosen([2])
+        message: "Enter an alternate master course number:",
     },
     syncingComment: {
         type: "input",
         name: "syncingComment",
         message: "Enter a syncing comment for canvas:",
-        when: stepIsChosen([2])
+        verify: null // isNotBlank
     },
     runAgain: {
         type: "confirm",
