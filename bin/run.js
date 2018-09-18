@@ -8,32 +8,6 @@ const path = require('path');
 const inquirer = require('inquirer');
 inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
 const prompts = require(path.join(__dirname, 'prompts.js')); // Object with all inquirer prompts and logic
-var setupPrompt = [
-    prompts.chooseStep,
-];
-
-var step1 = [
-    prompts.selectFile(['.csv']) // Returns custom 'selectFile' question object that only lists files with the given extension
-];
-var step2 = [
-    prompts.selectFile(['.json']), // Returns custom 'selectFile' question object that only lists files with the given extension
-    prompts.setSandboxNumber,
-    prompts.setMasterCourse,
-    prompts.masterCourseOther,
-    prompts.syncingComment
-];
-var step3 = [
-    prompts.selectFile(['.json']) // Returns custom 'selectFile' question object that only lists files with the given extension
-];
-var step = {
-    step1: step1, 
-    step2: step2, 
-    step3: step3
-};
-
-var endPrompt = [
-    prompts.runAgain
-]
 
 var appendAnswersObject = (objectToAppend, answersFromBatch) => {
     if (typeof objectToAppend !== 'object') return answersFromBatch;
@@ -48,9 +22,13 @@ var appendAnswersObject = (objectToAppend, answersFromBatch) => {
  *************************************************************************/
 var cli = async () => {
     var allAnswers = {};
-    await inquirer.prompt(setupPrompt);
-    await inquirer.prompt(step[step2]);
-    await inquirer.prompt(endPrompt)
+    var stepKey = 'step2';
+    await inquirer.prompt(prompts.setup);
+    await inquirer.prompt(prompts[stepKey])
+        .then(/*Run Corresponding step*/)
+        .catch(/*Append Error Log*/)
+        // .finally(/*Write Error Log*/);
+    console.log('finished!')
 };
 
 cli();

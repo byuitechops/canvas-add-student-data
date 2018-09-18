@@ -30,8 +30,7 @@ var filterByFileType = (extensions) => {
 };
 
 /*************************************************************************
- * This is used in assigning the source attribute for checkbox-plus
- * Use like so:
+ * SOURCE
  * (answersSoFar, input) => cbpSourceFn(answersSoFar, input, ['array']);
  * @param {Object} answersSoFar
  * @param {string} input
@@ -46,6 +45,7 @@ var cbpSourceFn = (answersSoFar, input, choices) => {
 };
 
 /*************************************************************************
+ * WHEN
  * @param {Object} answersSoFar comes from inquirer
  * @param {array} acceptableSteps array of values to compare vs answer from chooseStep question.
  *************************************************************************/
@@ -55,9 +55,24 @@ var stepIsChosen = (answersSoFar, acceptableSteps) => {
 };
 
 /*************************************************************************
- * Returns true if the value is a number, or can be coerced into a number. 
+ * VALIDATE
+ * Returns true if the value is a number. No coercing will occur 
  *************************************************************************/
-var isNumber = (valueToCheck) => !isNaN(valueToCheck);
+var isNumber = (valueToCheck) => {
+    if (valueToCheck === '' || isNaN(valueToCheck)) {
+        console.log('\nYour input must be a number!');
+        return false;
+    }
+    return true;
+};
+
+var isNotBlank = (valueToCheck) => {
+    if (valueToCheck.length === 0) {
+        console.log('\nYou cannot leave this field blank!');
+        return false;
+    }
+    return true;
+};
 
 /*************************************************************************
  * prompts object and vars for prompts object
@@ -87,6 +102,7 @@ var prompts = {
             highlight: true,
             searchable: true,
             source: (answersSoFar, input) => cbpSourceFn(answersSoFar, input, filterByFileType(extensions)),
+            validate: isNotBlank
         };
     },
     setSandboxNumber: {
@@ -94,7 +110,7 @@ var prompts = {
         name: "setSandboxNumber",
         message: "Enter the target sandbox's sub-account number (default: 8):",
         default: 8,
-        verify: isNumber
+        validate: isNumber
     },
     setMasterCourse: {
         type: "list",
@@ -105,25 +121,48 @@ var prompts = {
             "Campus",
             "Other"
         ],
-        filter: null, // setMasterCourseNumber
-        verify: isNumber
+        // filter: null, // setMasterCourseNumber
+        validate: isNumber
     },
     masterCourseOther: {
         type: "input",
         name: "theOtherPrompt",
         message: "Enter an alternate master course number:",
+        // when: null, // setMasterCourse answer === Other
+        validate: isNumber
     },
     syncingComment: {
         type: "input",
         name: "syncingComment",
         message: "Enter a syncing comment for canvas:",
-        verify: null // isNotBlank
+        validate: isNotBlank
     },
     runAgain: {
         type: "confirm",
         name: "runAgain",
-        message: "Would you like to run the program again?"
+        message: "Would you like to run the program again?",
+        default: false
     }
 };
 
-module.exports = prompts;
+module.exports = {
+    setup: [
+        prompts.chooseStep
+    ],
+    step1: [
+        prompts.selectFile(['.csv']) // Returns custom 'selectFile' question object that only lists files with the given extension
+    ],
+    step2: [
+        prompts.selectFile(['.js']), // Returns custom 'selectFile' question object that only lists files with the given extension
+        prompts.setSandboxNumber,
+        prompts.setMasterCourse,
+        prompts.masterCourseOther,
+        prompts.syncingComment
+    ],
+    step3: [
+        prompts.selectFile(['.json']) // Returns custom 'selectFile' question object that only lists files with the given extension
+    ],
+    close: [
+        prompts.runAgain
+    ]
+};
