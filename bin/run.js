@@ -25,6 +25,7 @@ var cli = async () => {
     var stepKey = 'step2';
     await inquirer.prompt(prompts.setup);
     await inquirer.prompt(prompts[stepKey])
+        .then( console.log )
         .then(/*Run Corresponding step*/)
         .catch(/*Append Error Log*/)
         // .finally(/*Write Error Log*/);

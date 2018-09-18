@@ -58,6 +58,7 @@ var stepIsChosen = (answersSoFar, acceptableSteps) => {
  * VALIDATE
  * Returns true if the value is a number. No coercing will occur 
  *************************************************************************/
+// TODO Make sure " " (space) doesn't registar as 0 (or a number)
 var isNumber = (valueToCheck) => {
     if (valueToCheck === '' || isNaN(valueToCheck)) {
         console.log('\nYour input must be a number!');
@@ -66,12 +67,30 @@ var isNumber = (valueToCheck) => {
     return true;
 };
 
+/*************************************************************************
+ * VALIDATE
+ * Returns true if the value is not blank / length property !== 0 
+ *************************************************************************/
 var isNotBlank = (valueToCheck) => {
     if (valueToCheck.length === 0) {
         console.log('\nYou cannot leave this field blank!');
         return false;
     }
     return true;
+};
+
+/*************************************************************************
+ * FILTER
+ * Returns the course number corresponding with online and campus positions
+ *************************************************************************/
+// TODO Find out why this is returning undefined
+var setMasterCourseNumber = (answersSoFar) => {
+    var courseOptions = {
+        ["Online"]: 4272,
+        ["Campus"]: 4274,
+        ["Other"] : -1
+    };
+    return courseOptions[answersSoFar.setMasterCourse];
 };
 
 /*************************************************************************
@@ -121,13 +140,14 @@ var prompts = {
             "Campus",
             "Other"
         ],
-        // filter: null, // setMasterCourseNumber
+        filter: setMasterCourseNumber,
         validate: isNumber
     },
     masterCourseOther: {
         type: "input",
         name: "theOtherPrompt",
         message: "Enter an alternate master course number:",
+        // TODO Write 'when:' function
         // when: null, // setMasterCourse answer === Other
         validate: isNumber
     },
@@ -153,7 +173,7 @@ module.exports = {
         prompts.selectFile(['.csv']) // Returns custom 'selectFile' question object that only lists files with the given extension
     ],
     step2: [
-        prompts.selectFile(['.js']), // Returns custom 'selectFile' question object that only lists files with the given extension
+        prompts.selectFile(['.json']), // Returns custom 'selectFile' question object that only lists files with the given extension
         prompts.setSandboxNumber,
         prompts.setMasterCourse,
         prompts.masterCourseOther,
