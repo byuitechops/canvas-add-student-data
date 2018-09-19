@@ -23,8 +23,8 @@ var appendAnswersObject = (objectToAppend, answersFromBatch) => {
  * Executes and manages cli data
  *************************************************************************/
 var cli = async () => {
-    var stepNumber = await inquirer.prompt(prompts.setup);
-    await inquirer.prompt(prompts['step' + stepNumber])
+    var stepKey = await inquirer.prompt(prompts.setup);
+    await inquirer.prompt(prompts[stepKey])
         .then(/*Run Corresponding step*/)
         .catch(/*Append Error Log*/)
         // .finally(/*Write Error Log*/);

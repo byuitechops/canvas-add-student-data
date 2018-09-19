@@ -97,16 +97,17 @@ var setMasterCourseNumber = (userInput) => {
 };
 
 /*************************************************************************
- * WHEN
- * Returns true or false depending on if other was selected in the 
- *************************************************************************/
-var shouldRunmasterCourseOther = (answersSoFar) => answersSoFar.setMasterCourse < 0;
-
-/*************************************************************************
  * FILTER
  * Returns number depending on which step was selected
  *************************************************************************/
-
+var setStepNumber = (userInput) => {
+    var stepOptions = {
+        [steps.step1]: 1,
+        [steps.step2]: 2,
+        [steps.step3]: 3
+    };
+    return stepOptions[userInput];
+};
 
 /*************************************************************************
  * prompts object and vars for prompts object
@@ -161,7 +162,7 @@ var prompts = {
         type: "input",
         name: "masterCourseOther",
         message: "Enter an alternate master course number:",
-        when: shouldRunmasterCourseOther,
+        when: (answersSoFar) => answersSoFar.setMasterCourse < 0,
         validate: isNumber
     },
     syncingComment: {
