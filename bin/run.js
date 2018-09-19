@@ -17,15 +17,14 @@ var appendAnswersObject = (objectToAppend, answersFromBatch) => {
     }, objectToAppend);
 }
 
+
+
 /*************************************************************************
  * Executes and manages cli data
  *************************************************************************/
 var cli = async () => {
-    var allAnswers = {};
-    var stepKey = 'step2';
-    await inquirer.prompt(prompts.setup);
-    await inquirer.prompt(prompts[stepKey])
-        .then( console.log )
+    var stepNumber = await inquirer.prompt(prompts.setup);
+    await inquirer.prompt(prompts['step' + stepNumber])
         .then(/*Run Corresponding step*/)
         .catch(/*Append Error Log*/)
         // .finally(/*Write Error Log*/);

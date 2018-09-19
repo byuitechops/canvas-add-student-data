@@ -11,8 +11,8 @@ var runningDir = path.resolve('./');
  * Takes an array of extenstions (include the dot).
  * Then filters the files in the running directory by extension
  *************************************************************************/
+var filesInDir = fs.readdirSync(runningDir, 'utf8');
 var filterByFileType = (extensions) => {
-    var filesInDir = fs.readdirSync(runningDir, 'utf8');
     var filteredFiles = filesInDir.reduce((acc, file) => {
         if (extensions.some((ext) => path.extname(file) === ext)) {
             acc.push(file);
@@ -27,6 +27,10 @@ var filterByFileType = (extensions) => {
         return bTime - aTime;
     });
     return filteredFiles;
+};
+
+var objectToArray = (object) => {
+    return Object.keys(object).map( (key) => object[key]);
 };
 
 /*************************************************************************
@@ -58,9 +62,9 @@ var stepIsChosen = (answersSoFar, acceptableSteps) => {
  * VALIDATE
  * Returns true if the value is a number. No coercing will occur 
  *************************************************************************/
-// TODO Make sure " " (space) doesn't registar as 0 (or a number)
 var isNumber = (valueToCheck) => {
-    if (valueToCheck === '' || isNaN(valueToCheck)) {
+    // if parseInt isnt here, values such as blank and space will be accepted
+    if (isNaN( parseInt(valueToCheck) )) {
         console.log('\nYour input must be a number!');
         return false;
     }
@@ -83,15 +87,26 @@ var isNotBlank = (valueToCheck) => {
  * FILTER
  * Returns the course number corresponding with online and campus positions
  *************************************************************************/
-// TODO Find out why this is returning undefined
-var setMasterCourseNumber = (answersSoFar) => {
+var setMasterCourseNumber = (userInput) => {
     var courseOptions = {
-        ["Online"]: 4272,
-        ["Campus"]: 4274,
-        ["Other"] : -1
+        [masterCourseOptions.online]: 4272,
+        [masterCourseOptions.campus]: 4274,
+        [masterCourseOptions.other] : -1 // Make sure other is less than 0
     };
-    return courseOptions[answersSoFar.setMasterCourse];
+    return courseOptions[userInput];
 };
+
+/*************************************************************************
+ * WHEN
+ * Returns true or false depending on if other was selected in the 
+ *************************************************************************/
+var shouldRunmasterCourseOther = (answersSoFar) => answersSoFar.setMasterCourse < 0;
+
+/*************************************************************************
+ * FILTER
+ * Returns number depending on which step was selected
+ *************************************************************************/
+
 
 /*************************************************************************
  * prompts object and vars for prompts object
@@ -102,16 +117,19 @@ var steps = {
     step3: "3) Enroll Teacher"
 };
 
+var masterCourseOptions = {
+    online: "Online",
+    campus: "Campus",
+    other : "Other"
+};
+
 var prompts = {
     chooseStep: {
         type: "list",
         name: "chooseStep",
         message: "Select which step you'd like to run:",
-        choices: [
-            steps.step1,
-            steps.step2,
-            steps.step3
-        ]
+        choices: objectToArray(steps),
+        filter : null,
     },
     selectFile: (extensions) => {
         return {
@@ -135,20 +153,15 @@ var prompts = {
         type: "list",
         name: "setMasterCourse",
         message: "Select a Template:",
-        choices: [
-            "Online",
-            "Campus",
-            "Other"
-        ],
+        choices: objectToArray(masterCourseOptions),
         filter: setMasterCourseNumber,
         validate: isNumber
     },
     masterCourseOther: {
         type: "input",
-        name: "theOtherPrompt",
+        name: "masterCourseOther",
         message: "Enter an alternate master course number:",
-        // TODO Write 'when:' function
-        // when: null, // setMasterCourse answer === Other
+        when: shouldRunmasterCourseOther,
         validate: isNumber
     },
     syncingComment: {
