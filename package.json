@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Adds fake student data to a course to simulate an active course. ",
   "main": "canvasAPICalls.js",
-  "bin": "./bin/run.js",
+  "bin": "./bin/runCLI.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

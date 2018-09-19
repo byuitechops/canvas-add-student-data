@@ -49,16 +49,6 @@ var cbpSourceFn = (answersSoFar, input, choices) => {
 };
 
 /*************************************************************************
- * WHEN
- * @param {Object} answersSoFar comes from inquirer
- * @param {array} acceptableSteps array of values to compare vs answer from chooseStep question.
- *************************************************************************/
-// when: (answersSoFar) => stepIsChosen(answersSoFar, [steps.step1, steps.step2, steps.step3])
-var stepIsChosen = (answersSoFar, acceptableSteps) => {
-    return acceptableSteps.some((step) => answersSoFar.chooseStep === step);
-};
-
-/*************************************************************************
  * VALIDATE
  * Returns true if the value is a number. No coercing will occur 
  *************************************************************************/
@@ -97,19 +87,6 @@ var setMasterCourseNumber = (userInput) => {
 };
 
 /*************************************************************************
- * FILTER
- * Returns number depending on which step was selected
- *************************************************************************/
-var setStepNumber = (userInput) => {
-    var stepOptions = {
-        [steps.step1]: 1,
-        [steps.step2]: 2,
-        [steps.step3]: 3
-    };
-    return stepOptions[userInput];
-};
-
-/*************************************************************************
  * prompts object and vars for prompts object
  *************************************************************************/
 var steps = {
@@ -130,7 +107,6 @@ var prompts = {
         name: "chooseStep",
         message: "Select which step you'd like to run:",
         choices: objectToArray(steps),
-        filter : null,
     },
     selectFile: (extensions) => {
         return {
@@ -183,17 +159,17 @@ module.exports = {
     setup: [
         prompts.chooseStep
     ],
-    step1: [
+    [steps.step1]: [
         prompts.selectFile(['.csv']) // Returns custom 'selectFile' question object that only lists files with the given extension
     ],
-    step2: [
+    [steps.step2]: [
         prompts.selectFile(['.json']), // Returns custom 'selectFile' question object that only lists files with the given extension
         prompts.setSandboxNumber,
         prompts.setMasterCourse,
         prompts.masterCourseOther,
         prompts.syncingComment
     ],
-    step3: [
+    [steps.step3]: [
         prompts.selectFile(['.json']) // Returns custom 'selectFile' question object that only lists files with the given extension
     ],
     close: [

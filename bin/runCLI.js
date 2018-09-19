@@ -7,27 +7,17 @@
 const path = require('path');
 const inquirer = require('inquirer');
 inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
+const runProgram = require(path.join(__dirname, 'runProgram.js'))
 const prompts = require(path.join(__dirname, 'prompts.js')); // Object with all inquirer prompts and logic
-
-var appendAnswersObject = (objectToAppend, answersFromBatch) => {
-    if (typeof objectToAppend !== 'object') return answersFromBatch;
-    return Object.keys(answersFromBatch).reduce((acc, answerKey) => {
-        acc[answerKey] = answersFromBatch[answerKey];
-        return acc;
-    }, objectToAppend);
-}
-
-
 
 /*************************************************************************
  * Executes and manages cli data
  *************************************************************************/
 var cli = async () => {
-    var stepKey = await inquirer.prompt(prompts.setup);
+    var stepKey = (await inquirer.prompt(prompts.setup)).chooseStep;
     await inquirer.prompt(prompts[stepKey])
-        .then(/*Run Corresponding step*/)
+        .then(runProgram)
         .catch(/*Append Error Log*/)
-        // .finally(/*Write Error Log*/);
     console.log('finished!')
 };
 
