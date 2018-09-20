@@ -7,7 +7,6 @@
 const path = require('path');
 const inquirer = require('inquirer');
 inquirer.registerPrompt('checkbox-plus', require('inquirer-checkbox-plus-prompt'));
-const runProgram = require(path.join(__dirname, 'runProgram.js'))
 const prompts = require(path.join(__dirname, 'prompts.js')); // Object with all inquirer prompts and logic
 
 /*************************************************************************
@@ -15,10 +14,8 @@ const prompts = require(path.join(__dirname, 'prompts.js')); // Object with all 
  *************************************************************************/
 var cli = async () => {
     var stepKey = (await inquirer.prompt(prompts.setup)).chooseStep;
-    await inquirer.prompt(prompts[stepKey])
-        .then(runProgram)
-        .catch(/*Append Error Log*/)
-    console.log('finished!')
+    var answers = await inquirer.prompt(prompts[stepKey])
+    return answers;
 };
 
-cli();
+module.exports = cli;

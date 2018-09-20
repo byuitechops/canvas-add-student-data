@@ -1,10 +1,10 @@
-console.log('Please wait...');
 /*************************************************************************
  * Requires and Variables
  *************************************************************************/
 const fs = require('fs');
 const path = require('path');
 var runningDir = path.resolve('./');
+const defaultSandboxNumber = 8;
 
 /*************************************************************************
  * @param {array} extension 
@@ -67,7 +67,7 @@ var isNumber = (valueToCheck) => {
  *************************************************************************/
 var isNotBlank = (valueToCheck) => {
     if (valueToCheck.length === 0) {
-        console.log('\nYou cannot leave this field blank!');
+        // console.log('\nYou cannot leave this field blank!');
         return false;
     }
     return true;
@@ -122,8 +122,8 @@ var prompts = {
     setSandboxNumber: {
         type: "input",
         name: "setSandboxNumber",
-        message: "Enter the target sandbox's sub-account number (default: 8):",
-        default: 8,
+        message: `Enter the target sandbox's sub-account number (default: ${defaultSandboxNumber}):`,
+        default: defaultSandboxNumber,
         validate: isNumber
     },
     setMasterCourse: {
@@ -139,6 +139,10 @@ var prompts = {
         name: "masterCourseOther",
         message: "Enter an alternate master course number:",
         when: (answersSoFar) => answersSoFar.setMasterCourse < 0,
+        transformer: (userInput, answersSoFar) => {
+            answersSoFar.setMasterCourse = userInput;
+            return userInput;
+        },
         validate: isNumber
     },
     syncingComment: {
