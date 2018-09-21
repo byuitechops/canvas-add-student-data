@@ -14,7 +14,9 @@ const prompts = require(path.join(__dirname, 'prompts.js')); // Object with all 
  *************************************************************************/
 var cli = async () => {
     var stepKey = (await inquirer.prompt(prompts.setup)).chooseStep;
-    var answers = await inquirer.prompt(prompts[stepKey])
+    var userInput = await inquirer.prompt(prompts[stepKey]);
+    userInput.chooseStep = stepKey; // Append first answer to set of second
+    userInput.steps = prompts.steps; // Pass this along to next function so it knows which function to run from the answer given on the choose step function
     return answers;
 };
 

@@ -87,6 +87,14 @@ var setMasterCourseNumber = (userInput) => {
 };
 
 /*************************************************************************
+ * FILTER
+ * prepends the full path to the selected file to the file name.
+ *************************************************************************/
+var setFullFilePath = (userInput) => {
+    return userInput.map( (file) => path.join(runningDir, file) );
+};
+
+/*************************************************************************
  * prompts object and vars for prompts object
  *************************************************************************/
 var steps = {
@@ -116,7 +124,8 @@ var prompts = {
             highlight: true,
             searchable: true,
             source: (answersSoFar, input) => cbpSourceFn(answersSoFar, input, filterByFileType(extensions)),
-            validate: isNotBlank
+            validate: isNotBlank,
+            filter: setFullFilePath
         };
     },
     setSandboxNumber: {
@@ -178,5 +187,6 @@ module.exports = {
     ],
     close: [
         prompts.runAgain
-    ]
+    ],
+    steps: steps // This is not a prompt, but is used throughout the program to know which step to run
 };
