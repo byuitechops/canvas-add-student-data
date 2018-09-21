@@ -1,9 +1,10 @@
 const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
+const path = require('path');
 const canvas = require('canvas-wrapper');
 var moment = require('moment');
-const Drifter = require('./drifter.js');
+const Drifter = require(path.join(__dirname, '../drifterData/drifter.js');
 var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
@@ -167,8 +168,15 @@ function syncAssociatedCourses(courseObjects) {
 
 
 
-
-module.exports = () => {
+/*************************************************************************
+ * This module.export contains the main function that actually needs to be
+ * run. More pressing projects required attention, so to save time the
+ * whole script was wrapped in a module.exports. If time is had, chaning it back may be considered.
+ * 
+ * 
+ *************************************************************************/
+// module.exports = () => {
+const main = () => {
     var num = instructors.slice(0);
 
     return new Promise((resolve, reject) => {
@@ -225,3 +233,5 @@ module.exports = () => {
         });
     });
 };
+main();
+// };

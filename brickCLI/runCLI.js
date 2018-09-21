@@ -17,7 +17,7 @@ var cli = async () => {
     var userInput = await inquirer.prompt(prompts[stepKey]);
     userInput.chooseStep = stepKey; // Append first answer to set of second
     userInput.steps = prompts.steps; // Pass this along to next function so it knows which function to run from the answer given on the choose step function
-    return answers;
+    return userInput;
 };
 
 module.exports = cli;
