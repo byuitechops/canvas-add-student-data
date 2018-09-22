@@ -1,9 +1,10 @@
 const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
+const path = require('path');
 const canvas = require('canvas-wrapper');
 var moment = require('moment');
-const Drifter = require('./drifter.js');
+const Drifter = require( path.join(__dirname, '../drifter.js') );
 var drifter = new Drifter();
 const chalk = require('chalk');
 const chalkAnimation = require('chalk-animation');
@@ -167,7 +168,8 @@ module.exports = (enrollFileLocation, sandboxSubAccount, masterCourseNumber, syn
 
 
 
-
+    // Main is the only thing that is returned, and the only thing that needs to be run, 
+    // but it needs to scope of the other functions and data on the document...
     var main = () => {
         var num = instructors.slice(0);
 
@@ -208,10 +210,10 @@ module.exports = (enrollFileLocation, sandboxSubAccount, masterCourseNumber, syn
                 var date = moment().format('D-MMM-YY h-m-sa');
                 console.log(chalk.greenBright('GOOD COURSES: ') + goodCourses.length);
                 console.log(chalk.redBright('BAD COURSES: ') + badCourses.length);
-
-
-                fs.writeFileSync(`./createdCourses${date}.json`, JSON.stringify(goodCourses, null, '\t'));
-                fs.writeFileSync(`./failedCourses${date}.json`, JSON.stringify(badCourses, null, '\t'));
+                var createdCoursesFilePathJson = `./createdCourses${date}.json`;
+                var failedCoursesFilePathJson = `./failedCourses${date}.json`;
+                fs.writeFileSync(createdCoursesFilePathJson, JSON.stringify(goodCourses, null, '\t'));
+                fs.writeFileSync(failedCoursesFilePathJson , JSON.stringify(badCourses , null, '\t'));
                 console.log(chalk.yellow('Data written to JSON Files'));
 
                 console.log('Beginning Sync Process...');
@@ -219,11 +221,11 @@ module.exports = (enrollFileLocation, sandboxSubAccount, masterCourseNumber, syn
                 syncAssociatedCourses(courseObjects)
                     .then(() => {
                         console.log('DONE Syncing Courses');
-                        resolve();
+                        resolve(createdCoursesFilePathJson);
                     })
                     .catch(reject);
             });
         });
     };
-    return main;
+    return main(); // here the returned value of main is returned to module.exports when envoked
 };

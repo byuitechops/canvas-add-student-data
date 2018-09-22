@@ -7,9 +7,9 @@ const idInstructors = require(path.join(__dirname, '/../brickIdentifyInstructors
 const buildCourse = require(path.join(__dirname, '/../brickBuildCourseFromBlueprint/buildCourseController.js'));
 const enrollTeachers = require(path.join(__dirname, '/../brickEnrollTeachers/enrollTeachers.js'));
 
-// const idInstructors = () => {console.log('idInstructors')}
-// const buildCourse = () => {console.log('buildCourse')}
-// const enrollTeachers = () => {console.log('enrollTeachers')}
+// const idInstructors = (file) => {console.log(file)}
+// const buildCourse = (file) => {console.log(file)}
+// const enrollTeachers = (file) => {console.log(file)}
 
 var getStep = (userInput) => {
     var steps = {
@@ -22,7 +22,8 @@ var getStep = (userInput) => {
 }
 
 var runStep = (step, userInput) => {
-    step (userInput.selectFile, userInput.setSandboxNumber, userInput.setMasterCourse, userInput.syncingComment);
+    // userInput.selectFile is passed in as an array. This will allow for future support of running multiple files at once
+    step (userInput.selectFile[0], userInput.setSandboxNumber, userInput.setMasterCourse, userInput.syncingComment);
 };
 
 (async function () {

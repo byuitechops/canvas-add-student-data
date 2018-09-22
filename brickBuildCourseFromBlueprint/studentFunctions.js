@@ -1,7 +1,8 @@
 const asyncLib = require('async');
-const canvasAPICalls = require('./canvasAPICalls.js');
-const populateDrifter = require('./populateDrifter.js');
-const submitQuiz = require('./submitQuiz.js');
+const path = require('path');
+const canvasAPICalls = require( path.join(__dirname, '../canvasAPICalls.js') );
+const populateDrifter = require( path.join(__dirname, '../populateDrifter.js') );
+const submitQuiz = require( path.join(__dirname, '../submitQuiz.js') );
 const fs = require('fs');
 const moment = require('moment');
 const issues = [];
@@ -329,10 +330,10 @@ function makeGroupSubmissions(drifter, waterCallback) {
 }
 
 
-module.exports = () => {
+module.exports = (jsonDataFileLocation) => {
     return new Promise((resolve, reject) => {
         /******************************************* this file has to change or be passed in as an obj */
-        var data = fs.readFileSync('./jilaneStudentCourses.json');
+        var data = fs.readFileSync(jsonDataFileLocation);
         
         var dataObjects = JSON.parse(data);
 
