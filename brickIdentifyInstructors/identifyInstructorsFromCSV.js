@@ -137,7 +137,7 @@ module.exports = (instructorCSV) => {
         //add on include email so we get that too
             apiCall = `/api/v1/accounts/1/users?search_term=${instructor.iNumber}&include[]=email`;
         } else if (instructor.canvasId !== null) {
-            apiCall = `/api/v1/users/${instructor.canvasId}`;
+            apiCall = `/api/v1/users/${instructor.canvasId}?include[]=email`;
         } else {
             missingInumberOrCanvasId();
             return;
@@ -235,7 +235,6 @@ module.exports = (instructorCSV) => {
             }
         }
     }
-
 
     asyncLib.mapLimit(csvData, 25, searchCanvas, mapCallBack);
 };
