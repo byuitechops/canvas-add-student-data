@@ -1,16 +1,19 @@
 const canvas = require('canvas-wrapper');
 const asyncLib = require('async');
+const courses = require('./fix4.json');
 const masterCourse = 4272;
 
+
 function deleteCourses(courses) {
-    asyncLib.eachLimit(courses, 10, (courcourse, cb) => {
-        canvas.delete(`/api/v1/courses/${courcourse.id}?event=delete`, (err) => {
+    console.log("delete");
+    asyncLib.eachLimit(courses, 10, (course, cb) => {
+        canvas.delete(`/api/v1/courses/${course.id}?event=delete`, (err) => {
             if (err) {
                 console.log(err);
                 cb(err);
                 return;
             }
-            console.log(`Course Deleted: ${courcourse.name} with id:${courcourse.id}`);
+            console.log(`Course Deleted: ${course.name} with id:${course.id}`);
             cb();
         });
     });
@@ -20,11 +23,11 @@ function deleteCourses(courses) {
 //     deleteCourses(courses);
 // });
 
-var byeBye = [7792, 8012, 8013, 8019, 8034]
-    .map((num, i) => {
+var byeBye = courses
+    .map((course) => {
         return {
-            id: num,
-            name: i + 1
+            id: course.course.id,
+            name: course.teacher.name
         };
     });
     
