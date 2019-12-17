@@ -6,7 +6,7 @@ This is a CLI that creates student submission data in all the courses linked to 
 ## Required CSV Format
 name      |email         |iNumber   |canvasId
 ----------|--------------|----------|--------
-First Last|email@byui.edu|1234567890|12345671
+First Last|email@byui.edu|1234567890|12345670
 
 You must have (`name` OR `email`) AND (`iNumber` OR `canvasId`)\
 Meaning, you must have the `name` column filled out, or you must have the `email` column filled out. Additionally, you must also have the `iNumber` column filled out, or you must have the `canvasId` column filled out. 
