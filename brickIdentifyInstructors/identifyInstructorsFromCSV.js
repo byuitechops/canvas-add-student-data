@@ -1,5 +1,5 @@
 const fs = require('fs');
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const asyncLib = require('async');
 const moment = require('moment');
 const d3dsv = require('d3-dsv');
@@ -184,6 +184,8 @@ module.exports = (instructorCSV) => {
             }
 
             //See if we have someone that has a matching name or matching email
+            if (!Array.isArray(userArr))
+                debugger;
             matchingUser = userArr.find(function (canvasUser) {
                 return checkName(instructor, canvasUser) || checkEmail(instructor, canvasUser);
             });

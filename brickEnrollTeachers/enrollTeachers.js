@@ -1,6 +1,6 @@
 const fs = require('fs');
 const asyncLib = require('async');
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const moment = require('moment');
 
 module.exports = (teachersToEnrollJsonFileLocation) => {

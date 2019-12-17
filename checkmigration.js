@@ -1,4 +1,4 @@
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const chalkAnimation = require('chalk-animation');
 
 function checkMigration(migration) {

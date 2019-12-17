@@ -1,4 +1,4 @@
-var canvas = require('canvas-wrapper');
+var canvas = require('canvas-api-wrapper');
 var fs = require('fs');
 
 canvas.get(`/api/v1/courses/4274/blueprint_templates/default/associated_courses`, (err, courses) => {

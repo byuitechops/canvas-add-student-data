@@ -2,7 +2,7 @@ const d3 = require('d3-dsv');
 const asyncLib = require('async');
 const fs = require('fs');
 const path = require('path');
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 var moment = require('moment');
 const Drifter = require( path.join(__dirname, '../drifter.js') );
 var drifter = new Drifter();
@@ -126,7 +126,7 @@ module.exports = (enrollFileLocation, sandboxSubAccount, masterCourseNumber, syn
             function check() {
                 canvas.get(`/api/v1/courses/${masterCourse}/blueprint_templates/default/migrations/${migration.id}`, (err, migrationDets) => {
                     if (err) return reject(err);
-                    console.log(`Sync state: ${migrationDets[0].workflow_state}`);
+                    console.log(`Sync state: ${migrationDets.workflow_state}`);
                     if (migrationDets[0].workflow_state != 'completed') {
                         setTimeout(() => {
                             check();

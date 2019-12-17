@@ -1,5 +1,5 @@
 /* eslint no-unused-vars:1 */
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 
 /*** Student Level Calls ***/
 

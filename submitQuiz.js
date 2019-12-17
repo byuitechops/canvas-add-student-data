@@ -1,4 +1,4 @@
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 //canvas.changeUser(process.env.TOKEN);
 
 function makeQuizzes(studentId, quizId, courseId, answersArr, cb) {

@@ -1,7 +1,7 @@
 /* eslint no-unused-vars:0 */
 /* eslint no-console:0 */
 
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const myAuth = require('./auth.json').token;
 
 

@@ -1,4 +1,4 @@
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 
 
 function submitQuiz(studentId, courseId, quizId, quizSubmission) {

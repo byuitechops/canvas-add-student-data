@@ -1,5 +1,5 @@
 const asyncLib = require('async');
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const Drifter = require('./drifter.js');
 var count = 0;
 

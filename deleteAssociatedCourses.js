@@ -1,4 +1,4 @@
-const canvas = require('canvas-wrapper');
+const canvas = require('canvas-api-wrapper');
 const asyncLib = require('async');
 const courses = require('./fix4.json');
 const masterCourse = 4272;
